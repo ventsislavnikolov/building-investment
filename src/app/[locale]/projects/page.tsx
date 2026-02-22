@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { t } from "@/lib/i18n";
 import {
   type CatalogStrategyFilter,
@@ -78,7 +79,12 @@ export default async function ProjectsPage({
               className="rounded-2xl border border-foreground/10 bg-white/70 p-5"
             >
               <h2 className="font-[var(--font-display)] text-2xl text-foreground">
-                {item.title}
+                <Link
+                  href={`/${locale}/projects/${item.slug}`}
+                  className="transition hover:text-accent"
+                >
+                  {item.title}
+                </Link>
               </h2>
               <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
                 <div>

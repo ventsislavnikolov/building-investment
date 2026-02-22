@@ -121,3 +121,21 @@ export function getProjectCatalog(input: {
     total: filtered.length,
   };
 }
+
+export function getProjectBySlug(slug: string, locale: AppLocale) {
+  const project = projects.find((item) => item.slug === slug);
+
+  if (!project) {
+    return null;
+  }
+
+  return {
+    city: project.city,
+    expectedIrrPct: project.expectedIrrPct,
+    fundedPct: project.fundedPct,
+    id: project.id,
+    slug: project.slug,
+    strategy: project.strategy,
+    title: locale === "bg" ? project.title_bg : project.title_en,
+  };
+}
