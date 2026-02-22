@@ -14,5 +14,19 @@
   "login.subtitle": "Access your investor dashboard.",
   "login.email": "Email",
   "login.password": "Password",
-  "login.submit": "Sign In"
+  "login.submit": "Sign In",
+  "projects.title": "Projects",
+  "projects.subtitle": "Explore active opportunities and review funding status.",
+  "projects.searchPlaceholder": "Search by city or project name",
+  "projects.strategy.all": "All Strategies",
+  "projects.strategy.flip": "Flip",
+  "projects.strategy.buy_to_rent": "Buy To Rent",
+  "projects.strategy.development": "Development",
+  "projects.strategy.land_prep": "Land Prep",
+  "projects.strategy.hybrid": "Hybrid",
+  "projects.card.city": "City",
+  "projects.card.strategy": "Strategy",
+  "projects.card.irr": "Expected IRR",
+  "projects.card.funded": "Funded",
+  "projects.empty": "No projects match your filters."
 }

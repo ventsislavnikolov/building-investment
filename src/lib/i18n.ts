@@ -7,10 +7,10 @@ const dictionaries = {
   bg,
 } as const;
 
-type Dictionary = (typeof dictionaries)[AppLocale];
-export type MessageKey = keyof Dictionary;
-
-export function t(locale: AppLocale, key: MessageKey): string {
+export function t(locale: AppLocale, key: string): string {
   const dictionary = dictionaries[locale] ?? dictionaries[defaultLocale];
-  return dictionary[key] ?? dictionaries[defaultLocale][key];
+  const safeDictionary = dictionary as Record<string, string>;
+  const safeDefault = dictionaries[defaultLocale] as Record<string, string>;
+
+  return safeDictionary[key] ?? safeDefault[key] ?? key;
 }

@@ -14,5 +14,19 @@
   "login.subtitle": "Достъп до твоя инвеститорски панел.",
   "login.email": "Имейл",
   "login.password": "Парола",
-  "login.submit": "Вход"
+  "login.submit": "Вход",
+  "projects.title": "Проекти",
+  "projects.subtitle": "Разгледай активните възможности и статуса на финансиране.",
+  "projects.searchPlaceholder": "Търси по град или име на проект",
+  "projects.strategy.all": "Всички стратегии",
+  "projects.strategy.flip": "Флип",
+  "projects.strategy.buy_to_rent": "Покупка за наем",
+  "projects.strategy.development": "Развитие",
+  "projects.strategy.land_prep": "Подготовка на терен",
+  "projects.strategy.hybrid": "Хибрид",
+  "projects.card.city": "Град",
+  "projects.card.strategy": "Стратегия",
+  "projects.card.irr": "Очаквана IRR",
+  "projects.card.funded": "Финансирано",
+  "projects.empty": "Няма проекти по избраните филтри."
 }

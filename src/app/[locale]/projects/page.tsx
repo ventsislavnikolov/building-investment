@@ -1,12 +1,123 @@
-export default function ProjectsPage() {
+import { t } from "@/lib/i18n";
+import {
+  type CatalogStrategyFilter,
+  getProjectCatalog,
+  isCatalogStrategyFilter,
+  projectStrategies,
+} from "@/lib/projects/catalog";
+import { defaultLocale, isSupportedLocale } from "@/lib/routing";
+
+type ProjectsPageProps = {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ q?: string; strategy?: string }>;
+};
+
+export default async function ProjectsPage({
+  params,
+  searchParams,
+}: ProjectsPageProps) {
+  const { locale: rawLocale } = await params;
+  const { q = "", strategy = "all" } = await searchParams;
+  const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const strategyFilter: CatalogStrategyFilter = isCatalogStrategyFilter(
+    strategy,
+  )
+    ? strategy
+    : "all";
+  const catalog = getProjectCatalog({
+    locale,
+    strategy: strategyFilter,
+    search: q,
+  });
+
   return (
     <main className="mx-auto min-h-screen max-w-4xl px-8 py-20">
       <h1 className="font-[var(--font-display)] text-5xl text-foreground">
-        Projects
+        {t(locale, "projects.title")}
       </h1>
       <p className="mt-4 text-lg text-muted">
-        Project catalog route scaffolded for the MVP.
+        {t(locale, "projects.subtitle")}
       </p>
+
+      <form className="mt-8 grid gap-3 rounded-2xl border border-foreground/10 bg-white/60 p-4 sm:grid-cols-[1fr_auto]">
+        <input
+          defaultValue={q}
+          name="q"
+          className="w-full rounded-xl border border-foreground/20 bg-white px-4 py-3 text-foreground outline-none ring-accent transition focus:ring-2"
+          placeholder={t(locale, "projects.searchPlaceholder")}
+        />
+        <div className="flex gap-2 sm:justify-end">
+          <select
+            name="strategy"
+            defaultValue={strategyFilter}
+            className="rounded-xl border border-foreground/20 bg-white px-3 py-3 text-sm text-foreground outline-none ring-accent transition focus:ring-2"
+          >
+            <option value="all">{t(locale, "projects.strategy.all")}</option>
+            {projectStrategies.map((value) => (
+              <option key={value} value={value}>
+                {t(locale, `projects.strategy.${value}`)}
+              </option>
+            ))}
+          </select>
+          <button
+            type="submit"
+            className="rounded-xl bg-accent px-4 py-3 text-xs font-semibold tracking-[0.08em] text-accent-foreground uppercase"
+          >
+            OK
+          </button>
+        </div>
+      </form>
+
+      {catalog.total === 0 ? (
+        <p className="mt-10 text-muted">{t(locale, "projects.empty")}</p>
+      ) : (
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          {catalog.items.map((item) => (
+            <article
+              key={item.id}
+              className="rounded-2xl border border-foreground/10 bg-white/70 p-5"
+            >
+              <h2 className="font-[var(--font-display)] text-2xl text-foreground">
+                {item.title}
+              </h2>
+              <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <dt className="text-muted">
+                    {t(locale, "projects.card.city")}
+                  </dt>
+                  <dd className="mt-1 font-semibold text-foreground">
+                    {item.city}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-muted">
+                    {t(locale, "projects.card.strategy")}
+                  </dt>
+                  <dd className="mt-1 font-semibold text-foreground">
+                    {t(locale, `projects.strategy.${item.strategy}`)}
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-muted">
+                    {t(locale, "projects.card.irr")}
+                  </dt>
+                  <dd className="mt-1 font-semibold text-foreground">
+                    {item.expectedIrrPct.toFixed(1)}%
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-muted">
+                    {t(locale, "projects.card.funded")}
+                  </dt>
+                  <dd className="mt-1 font-semibold text-foreground">
+                    {item.fundedPct}%
+                  </dd>
+                </div>
+              </dl>
+            </article>
+          ))}
+        </div>
+      )}
     </main>
   );
 }
