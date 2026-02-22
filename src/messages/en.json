@@ -1,0 +1,18 @@
+{
+  "home.badge": "Building Investment",
+  "home.headline": "Invest in Bulgarian Real Estate",
+  "home.description": "Access curated residential and mixed-use opportunities with structured SPV protection, transparent budgets, and investor-first reporting.",
+  "home.cta.projects": "Explore Projects",
+  "home.cta.how": "How It Works",
+  "home.snapshot": "Live Snapshot",
+  "home.snapshot.openProjects": "Open Projects",
+  "home.snapshot.avgIrr": "Avg Target IRR",
+  "home.snapshot.investors": "Investors",
+  "home.snapshot.distributed": "Distributed",
+  "home.snapshot.note": "MVP foundation in progress: authentication, KYC onboarding, and investment checkout workflows.",
+  "login.title": "Sign In",
+  "login.subtitle": "Access your investor dashboard.",
+  "login.email": "Email",
+  "login.password": "Password",
+  "login.submit": "Sign In"
+}

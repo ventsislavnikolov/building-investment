@@ -1,0 +1,18 @@
+{
+  "home.badge": "Building Investment",
+  "home.headline": "Инвестирай в Български Недвижими Имоти",
+  "home.description": "Получи достъп до подбрани жилищни и смесени проекти със структурирана SPV защита, прозрачни бюджети и отчетност към инвеститорите.",
+  "home.cta.projects": "Разгледай Проекти",
+  "home.cta.how": "Как Работи",
+  "home.snapshot": "Текуща Картина",
+  "home.snapshot.openProjects": "Активни Проекти",
+  "home.snapshot.avgIrr": "Средна Целева IRR",
+  "home.snapshot.investors": "Инвеститори",
+  "home.snapshot.distributed": "Изплатено",
+  "home.snapshot.note": "MVP основата е в процес: автентикация, KYC onboarding и investment checkout.",
+  "login.title": "Вход",
+  "login.subtitle": "Достъп до твоя инвеститорски панел.",
+  "login.email": "Имейл",
+  "login.password": "Парола",
+  "login.submit": "Вход"
+}

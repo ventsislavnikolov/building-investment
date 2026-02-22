@@ -44,6 +44,11 @@ No client state library needed. Server Components + Server Actions + URL state +
 ### Staged Files
 - **lint-staged** - runs ultracite fix on staged `*.{js,jsx,ts,tsx,json,css,md}`
 
+### UI Implementation Workflow
+- **Codex skill**: use `frontend-design` as the default workflow for building pages and UI components
+- **Stack guardrails**: keep implementation aligned with shadcn/ui + Tailwind CSS 4 + Motion patterns
+- **Quality bar**: validate desktop + mobile rendering before merge
+
 ### Testing
 - **Jest** + `@testing-library/react` - unit tests for hooks, utils, components
 - **Playwright** - E2E tests for critical flows (registration, investment, admin)
@@ -384,6 +389,11 @@ NEXT_PUBLIC_APP_URL=
 
 ## Build Sequence (MVP phases)
 
+### Delivery Rule (Mandatory)
+- All implementation is **TDD-first**: write failing tests first, implement minimal code to pass, then refactor safely.
+- Every feature PR must include tests for the behavior it introduces or changes.
+- Minimum verification before merge: unit/integration tests + relevant Playwright flow for user-facing changes.
+
 ### Phase 1: Foundation
 - Next.js project setup + Tailwind + shadcn/ui
 - Dev tooling (Biome, Husky, commitlint, lint-staged)
@@ -393,12 +403,14 @@ NEXT_PUBLIC_APP_URL=
 - Middleware (auth + i18n)
 - Sentry integration
 - CI/CD (Vercel + GitHub Actions)
+- TDD baseline: test setup, sample red-green-refactor flow, CI gate for tests
 
 ### Phase 2: Public site
 - Landing page
 - Project catalog (list + filters)
 - Project detail page (public view)
 - How it works / About
+- TDD gate: page/component tests + critical browse/search E2E coverage
 
 ### Phase 3: Investor dashboard
 - KYC integration (Sumsub)
@@ -407,6 +419,7 @@ NEXT_PUBLIC_APP_URL=
 - Wallet / ledger (read-only for investors)
 - Documents access
 - Progress updates view
+- TDD gate: server actions, validation, and payment flow tests before feature completion
 
 ### Phase 4: Admin panel
 - Project CRUD + pipeline
@@ -416,6 +429,7 @@ NEXT_PUBLIC_APP_URL=
 - Document management
 - Progress update publishing
 - Distribution management
+- TDD gate: admin authorization + mutation path tests with RLS-sensitive scenarios
 
 ### Phase 5: Polish + launch
 - Email notifications (Resend)
@@ -425,3 +439,4 @@ NEXT_PUBLIC_APP_URL=
 - Security audit
 - Production deployment
 - Semantic-release setup
+- TDD gate: regression suite pass before launch sign-off
