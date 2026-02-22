@@ -34,4 +34,30 @@ describe("project catalog", () => {
     expect(catalog.items.length).toBe(1);
     expect(catalog.items[0]?.slug).toBe("varna-seaside-rentals");
   });
+
+  it("sorts projects by funded descending", () => {
+    const catalog = getProjectCatalog({
+      locale: "en",
+      strategy: "all",
+      search: "",
+      sort: "funded_desc",
+    });
+
+    expect(catalog.items[0]?.fundedPct).toBeGreaterThanOrEqual(
+      catalog.items[1]?.fundedPct ?? 0,
+    );
+  });
+
+  it("sorts projects by expected IRR descending", () => {
+    const catalog = getProjectCatalog({
+      locale: "en",
+      strategy: "all",
+      search: "",
+      sort: "irr_desc",
+    });
+
+    expect(catalog.items[0]?.expectedIrrPct).toBeGreaterThanOrEqual(
+      catalog.items[1]?.expectedIrrPct ?? 0,
+    );
+  });
 });

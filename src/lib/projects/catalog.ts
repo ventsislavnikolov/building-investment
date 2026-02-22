@@ -70,6 +70,13 @@ const projects: CatalogProject[] = [
 ];
 
 export type CatalogStrategyFilter = ProjectStrategy | "all";
+export type CatalogSort = "featured" | "funded_desc" | "irr_desc";
+
+const catalogSortOptions: CatalogSort[] = [
+  "featured",
+  "funded_desc",
+  "irr_desc",
+];
 
 export function isCatalogStrategyFilter(
   value: string,
@@ -79,10 +86,15 @@ export function isCatalogStrategyFilter(
   );
 }
 
+export function isCatalogSort(value: string): value is CatalogSort {
+  return catalogSortOptions.includes(value as CatalogSort);
+}
+
 export function getProjectCatalog(input: {
   locale: AppLocale;
   search: string;
   strategy: CatalogStrategyFilter;
+  sort?: CatalogSort;
 }) {
   const search = input.search.trim().toLowerCase();
 
@@ -108,8 +120,15 @@ export function getProjectCatalog(input: {
     );
   });
 
+  const sorted = [...filtered];
+  if (input.sort === "funded_desc") {
+    sorted.sort((a, b) => b.fundedPct - a.fundedPct);
+  } else if (input.sort === "irr_desc") {
+    sorted.sort((a, b) => b.expectedIrrPct - a.expectedIrrPct);
+  }
+
   return {
-    items: filtered.map((project) => ({
+    items: sorted.map((project) => ({
       city: project.city,
       expectedIrrPct: project.expectedIrrPct,
       fundedPct: project.fundedPct,

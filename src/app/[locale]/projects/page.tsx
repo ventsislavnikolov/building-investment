@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { t } from "@/lib/i18n";
 import {
+  type CatalogSort,
   type CatalogStrategyFilter,
   getProjectCatalog,
+  isCatalogSort,
   isCatalogStrategyFilter,
   projectStrategies,
 } from "@/lib/projects/catalog";
@@ -10,7 +12,7 @@ import { defaultLocale, isSupportedLocale } from "@/lib/routing";
 
 type ProjectsPageProps = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ q?: string; strategy?: string }>;
+  searchParams: Promise<{ q?: string; sort?: string; strategy?: string }>;
 };
 
 export default async function ProjectsPage({
@@ -18,17 +20,19 @@ export default async function ProjectsPage({
   searchParams,
 }: ProjectsPageProps) {
   const { locale: rawLocale } = await params;
-  const { q = "", strategy = "all" } = await searchParams;
+  const { q = "", sort = "featured", strategy = "all" } = await searchParams;
   const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
   const strategyFilter: CatalogStrategyFilter = isCatalogStrategyFilter(
     strategy,
   )
     ? strategy
     : "all";
+  const sortFilter: CatalogSort = isCatalogSort(sort) ? sort : "featured";
   const catalog = getProjectCatalog({
     locale,
     strategy: strategyFilter,
     search: q,
+    sort: sortFilter,
   });
 
   return (
@@ -59,6 +63,19 @@ export default async function ProjectsPage({
                 {t(locale, `projects.strategy.${value}`)}
               </option>
             ))}
+          </select>
+          <select
+            name="sort"
+            defaultValue={sortFilter}
+            className="rounded-xl border border-foreground/20 bg-white px-3 py-3 text-sm text-foreground outline-none ring-accent transition focus:ring-2"
+          >
+            <option value="featured">
+              {t(locale, "projects.sort.featured")}
+            </option>
+            <option value="funded_desc">
+              {t(locale, "projects.sort.funded")}
+            </option>
+            <option value="irr_desc">{t(locale, "projects.sort.irr")}</option>
           </select>
           <button
             type="submit"
