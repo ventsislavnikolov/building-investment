@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { buildDashboardDocuments } from "@/lib/dashboard/documents";
 import { buildPortfolioPositions } from "@/lib/dashboard/portfolio";
 import { buildDashboardSummary } from "@/lib/dashboard/summary";
 import type { AppLocale } from "@/lib/routing";
@@ -29,6 +30,15 @@ type PortfolioInvestmentRow = {
         title_bg: string | null;
         title_en: string | null;
       }[];
+};
+
+type DashboardDocumentRow = {
+  category: string | null;
+  created_at: string | null;
+  file_name: string | null;
+  file_path: string | null;
+  id: string | null;
+  title: string | null;
 };
 
 export async function fetchDashboardSummary(
@@ -85,5 +95,24 @@ export async function fetchDashboardPortfolio(
         status: item.status ?? "",
       };
     }),
+  });
+}
+
+export async function fetchDashboardDocuments(supabase: SupabaseClient) {
+  const { data } = await supabase
+    .from("documents")
+    .select("id,title,category,file_name,file_path,created_at")
+    .order("created_at", { ascending: false })
+    .limit(25);
+
+  return buildDashboardDocuments({
+    documents: (data ?? []).map((item: DashboardDocumentRow) => ({
+      category: item.category ?? "",
+      createdAt: item.created_at ?? "",
+      fileName: item.file_name ?? "",
+      filePath: item.file_path ?? "",
+      id: item.id ?? "",
+      title: item.title ?? "",
+    })),
   });
 }
