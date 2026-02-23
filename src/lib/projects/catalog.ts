@@ -170,3 +170,16 @@ export function getProjectBySlug(slug: string, locale: AppLocale) {
     title: locale === "bg" ? project.title_bg : project.title_en,
   };
 }
+
+export function getProjectInvestmentLimitsBySlug(slug: string) {
+  const project = projects.find((item) => item.slug === slug);
+
+  if (!project) {
+    return null;
+  }
+
+  return {
+    maxInvestment: project.maxInvestment,
+    minInvestment: project.minInvestment,
+  };
+}

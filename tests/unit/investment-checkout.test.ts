@@ -56,4 +56,20 @@ describe("investment checkout submission", () => {
     expect(result.ok).toBe(false);
     expect(result.message).toBe("Checkout unavailable");
   });
+
+  it("enforces project limits even when submitted min/max are tampered", async () => {
+    const result = await processInvestmentCheckoutSubmission(
+      buildFormData({
+        amount: "200",
+        locale: "en",
+        maxAmount: "999999",
+        minAmount: "1",
+        slug: "varna-seaside-rentals",
+      }),
+      async () => ({ checkoutUrl: "/en/dashboard/investments", ok: true }),
+    );
+
+    expect(result.ok).toBe(false);
+    expect(result.errors?.amount).toMatch(/at least €500/i);
+  });
 });

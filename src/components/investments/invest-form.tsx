@@ -35,8 +35,6 @@ export function InvestForm({
     <form action={formAction} className="mt-8 max-w-xl space-y-4">
       <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="slug" value={slug} />
-      <input type="hidden" name="minAmount" value={minAmount} />
-      <input type="hidden" name="maxAmount" value={maxAmount} />
 
       {state.message ? (
         <p className="max-w-xl rounded-xl border border-[#9f4f28]/20 bg-[#9f4f28]/10 px-4 py-3 text-sm text-[#7a3a1f]">

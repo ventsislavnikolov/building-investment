@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getProjectInvestmentLimitsBySlug } from "@/lib/projects/catalog";
 import {
   type AppLocale,
   defaultLocale,
@@ -65,8 +66,7 @@ export async function processInvestmentCheckoutSubmission(
   const locale = resolveLocale(String(formData.get("locale") ?? ""));
   const slug = String(formData.get("slug") ?? "").trim();
   const amountRaw = Number(formData.get("amount"));
-  const minAmount = Number(formData.get("minAmount"));
-  const maxAmount = Number(formData.get("maxAmount"));
+  const limits = getProjectInvestmentLimitsBySlug(slug);
 
   const parsedAmount = amountSchema.safeParse(amountRaw);
   if (!parsedAmount.success) {
@@ -79,30 +79,30 @@ export async function processInvestmentCheckoutSubmission(
     };
   }
 
-  if (parsedAmount.data < minAmount) {
-    return {
-      ok: false,
-      message: "Please fix the highlighted fields",
-      errors: {
-        amount: `Amount must be at least €${minAmount.toFixed(0)}`,
-      },
-    };
-  }
-
-  if (Number.isFinite(maxAmount) && parsedAmount.data > maxAmount) {
-    return {
-      ok: false,
-      message: "Please fix the highlighted fields",
-      errors: {
-        amount: `Amount must be no more than €${maxAmount.toFixed(0)}`,
-      },
-    };
-  }
-
-  if (!slug) {
+  if (!limits) {
     return {
       ok: false,
       message: "Project reference is missing",
+    };
+  }
+
+  if (parsedAmount.data < limits.minInvestment) {
+    return {
+      ok: false,
+      message: "Please fix the highlighted fields",
+      errors: {
+        amount: `Amount must be at least €${limits.minInvestment.toFixed(0)}`,
+      },
+    };
+  }
+
+  if (parsedAmount.data > limits.maxInvestment) {
+    return {
+      ok: false,
+      message: "Please fix the highlighted fields",
+      errors: {
+        amount: `Amount must be no more than €${limits.maxInvestment.toFixed(0)}`,
+      },
     };
   }
 
