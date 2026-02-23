@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { buildDashboardDistributions } from "@/lib/dashboard/distributions";
 import { buildDashboardDocuments } from "@/lib/dashboard/documents";
 import { buildDashboardInvestments } from "@/lib/dashboard/investments";
 import { buildDashboardKycStatus } from "@/lib/dashboard/kyc";
@@ -52,6 +53,23 @@ type DashboardInvestmentRow = {
   amount: number | null;
   created_at: string | null;
   id: string | null;
+  status: string | null;
+  projects:
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }
+    | null
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }[];
+};
+
+type DashboardDistributionRow = {
+  created_at: string | null;
+  id: string | null;
+  net_amount: number | null;
   status: string | null;
   projects:
     | {
@@ -241,6 +259,36 @@ export async function fetchDashboardInvestments(
         amount: Number(item.amount ?? 0),
         createdAt: item.created_at ?? "",
         id: item.id ?? "",
+        projectTitle:
+          locale === "bg"
+            ? (relatedProject?.title_bg ?? relatedProject?.title_en ?? "")
+            : (relatedProject?.title_en ?? relatedProject?.title_bg ?? ""),
+        status: item.status ?? "",
+      };
+    }),
+  });
+}
+
+export async function fetchDashboardDistributions(
+  supabase: SupabaseClient,
+  investorId: string,
+  locale: AppLocale,
+) {
+  const { data } = await supabase
+    .from("distributions")
+    .select("id,net_amount,status,created_at,projects(title_bg,title_en)")
+    .eq("investor_id", investorId);
+
+  return buildDashboardDistributions({
+    distributions: (data ?? []).map((item: DashboardDistributionRow) => {
+      const relatedProject = Array.isArray(item.projects)
+        ? item.projects[0]
+        : item.projects;
+
+      return {
+        createdAt: item.created_at ?? "",
+        id: item.id ?? "",
+        netAmount: Number(item.net_amount ?? 0),
         projectTitle:
           locale === "bg"
             ? (relatedProject?.title_bg ?? relatedProject?.title_en ?? "")
