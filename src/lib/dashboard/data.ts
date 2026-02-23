@@ -1,6 +1,8 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { buildDashboardDocuments } from "@/lib/dashboard/documents";
+import { buildDashboardInvestments } from "@/lib/dashboard/investments";
 import { buildPortfolioPositions } from "@/lib/dashboard/portfolio";
+import { buildDashboardProfile } from "@/lib/dashboard/profile";
 import { buildDashboardSummary } from "@/lib/dashboard/summary";
 import type { AppLocale } from "@/lib/routing";
 
@@ -39,6 +41,32 @@ type DashboardDocumentRow = {
   file_path: string | null;
   id: string | null;
   title: string | null;
+};
+
+type DashboardInvestmentRow = {
+  amount: number | null;
+  created_at: string | null;
+  id: string | null;
+  status: string | null;
+  projects:
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }
+    | null
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }[];
+};
+
+type DashboardProfileRow = {
+  currency: string | null;
+  email: string | null;
+  first_name: string | null;
+  kyc_status: string | null;
+  last_name: string | null;
+  locale: string | null;
 };
 
 export async function fetchDashboardSummary(
@@ -114,5 +142,57 @@ export async function fetchDashboardDocuments(supabase: SupabaseClient) {
       id: item.id ?? "",
       title: item.title ?? "",
     })),
+  });
+}
+
+export async function fetchDashboardInvestments(
+  supabase: SupabaseClient,
+  investorId: string,
+  locale: AppLocale,
+) {
+  const { data } = await supabase
+    .from("investments")
+    .select("id,amount,status,created_at,projects(title_bg,title_en)")
+    .eq("investor_id", investorId);
+
+  return buildDashboardInvestments({
+    investments: (data ?? []).map((item: DashboardInvestmentRow) => {
+      const relatedProject = Array.isArray(item.projects)
+        ? item.projects[0]
+        : item.projects;
+
+      return {
+        amount: Number(item.amount ?? 0),
+        createdAt: item.created_at ?? "",
+        id: item.id ?? "",
+        projectTitle:
+          locale === "bg"
+            ? (relatedProject?.title_bg ?? relatedProject?.title_en ?? "")
+            : (relatedProject?.title_en ?? relatedProject?.title_bg ?? ""),
+        status: item.status ?? "",
+      };
+    }),
+  });
+}
+
+export async function fetchDashboardProfile(
+  supabase: SupabaseClient,
+  investorId: string,
+) {
+  const { data } = await supabase
+    .from("profiles")
+    .select("first_name,last_name,email,kyc_status,locale,currency")
+    .eq("id", investorId)
+    .maybeSingle();
+
+  const profile = (data ?? {}) as DashboardProfileRow;
+
+  return buildDashboardProfile({
+    currency: profile.currency ?? "",
+    email: profile.email ?? "",
+    firstName: profile.first_name ?? "",
+    kycStatus: profile.kyc_status ?? "",
+    lastName: profile.last_name ?? "",
+    locale: profile.locale ?? "",
   });
 }
