@@ -3,6 +3,7 @@ type PortfolioInvestment = {
   city: string;
   id: string;
   projectId: string;
+  projectSlug?: string;
   projectTitle: string;
   status: string;
 };
@@ -12,6 +13,7 @@ type PortfolioPosition = {
   city: string;
   id: string;
   projectId: string;
+  projectSlug: string;
   projectTitle: string;
   status: string;
 };
@@ -35,7 +37,10 @@ export function buildPortfolioPositions(input: {
 
   return {
     activePositions: items.length,
-    items,
+    items: items.map((item) => ({
+      ...item,
+      projectSlug: item.projectSlug ?? "",
+    })),
     totalInvested,
   };
 }

@@ -5,6 +5,7 @@ import { buildDashboardKycStatus } from "@/lib/dashboard/kyc";
 import { buildPortfolioPositions } from "@/lib/dashboard/portfolio";
 import { buildDashboardProfile } from "@/lib/dashboard/profile";
 import { buildDashboardProgress } from "@/lib/dashboard/progress";
+import { buildDashboardProjectExposure } from "@/lib/dashboard/project-exposure";
 import { buildDashboardSummary } from "@/lib/dashboard/summary";
 import type { AppLocale } from "@/lib/routing";
 
@@ -25,12 +26,14 @@ type PortfolioInvestmentRow = {
   projects:
     | {
         city: string | null;
+        slug: string | null;
         title_bg: string | null;
         title_en: string | null;
       }
     | null
     | {
         city: string | null;
+        slug: string | null;
         title_bg: string | null;
         title_en: string | null;
       }[];
@@ -123,7 +126,7 @@ export async function fetchDashboardPortfolio(
 ) {
   const { data } = await supabase
     .from("investments")
-    .select("id,amount,status,project_id,projects(title_bg,title_en,city)")
+    .select("id,amount,status,project_id,projects(slug,title_bg,title_en,city)")
     .eq("investor_id", investorId);
 
   return buildPortfolioPositions({
@@ -137,6 +140,7 @@ export async function fetchDashboardPortfolio(
         city: relatedProject?.city ?? "",
         id: item.id ?? "",
         projectId: item.project_id ?? "",
+        projectSlug: relatedProject?.slug ?? "",
         projectTitle:
           locale === "bg"
             ? (relatedProject?.title_bg ?? relatedProject?.title_en ?? "")
@@ -144,6 +148,57 @@ export async function fetchDashboardPortfolio(
         status: item.status ?? "",
       };
     }),
+  });
+}
+
+export async function fetchDashboardProjectExposure(
+  supabase: SupabaseClient,
+  input: {
+    investorId: string;
+    slug: string;
+  },
+) {
+  const projectLookup = await supabase
+    .from("projects")
+    .select("id")
+    .eq("slug", input.slug)
+    .maybeSingle();
+
+  const projectId = projectLookup.data?.id;
+
+  if (!projectId) {
+    return buildDashboardProjectExposure({
+      distributions: [],
+      investments: [],
+    });
+  }
+
+  const [{ data: investments }, { data: distributions }] = await Promise.all([
+    supabase
+      .from("investments")
+      .select("amount,status")
+      .eq("investor_id", input.investorId)
+      .eq("project_id", projectId),
+    supabase
+      .from("distributions")
+      .select("net_amount,status")
+      .eq("investor_id", input.investorId)
+      .eq("project_id", projectId),
+  ]);
+
+  return buildDashboardProjectExposure({
+    distributions: (distributions ?? []).map(
+      (item: { net_amount: number | null; status: string | null }) => ({
+        netAmount: Number(item.net_amount ?? 0),
+        status: item.status ?? "",
+      }),
+    ),
+    investments: (investments ?? []).map(
+      (item: { amount: number | null; status: string | null }) => ({
+        amount: Number(item.amount ?? 0),
+        status: item.status ?? "",
+      }),
+    ),
   });
 }
 

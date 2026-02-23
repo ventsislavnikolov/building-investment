@@ -80,9 +80,18 @@ export default async function PortfolioPage({ params }: PortfolioPageProps) {
                 className="grid gap-4 rounded-xl border border-foreground/10 bg-white p-4 sm:grid-cols-[1fr_auto_auto]"
               >
                 <div>
-                  <p className="font-semibold text-foreground">
-                    {item.projectTitle || item.projectId}
-                  </p>
+                  {item.projectSlug ? (
+                    <Link
+                      href={`/${locale}/dashboard/projects/${item.projectSlug}`}
+                      className="font-semibold text-foreground transition hover:text-accent"
+                    >
+                      {item.projectTitle || item.projectId}
+                    </Link>
+                  ) : (
+                    <p className="font-semibold text-foreground">
+                      {item.projectTitle || item.projectId}
+                    </p>
+                  )}
                   <p className="text-sm text-muted">{item.city}</p>
                 </div>
                 <p className="text-sm text-muted">{item.status}</p>
