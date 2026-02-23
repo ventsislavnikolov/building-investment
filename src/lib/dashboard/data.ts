@@ -8,6 +8,7 @@ import { buildDashboardProfile } from "@/lib/dashboard/profile";
 import { buildDashboardProgress } from "@/lib/dashboard/progress";
 import { buildDashboardProjectExposure } from "@/lib/dashboard/project-exposure";
 import { buildDashboardSummary } from "@/lib/dashboard/summary";
+import { buildDashboardTransactions } from "@/lib/dashboard/transactions";
 import type { AppLocale } from "@/lib/routing";
 
 type InvestmentRow = {
@@ -67,6 +68,40 @@ type DashboardInvestmentRow = {
 };
 
 type DashboardDistributionRow = {
+  created_at: string | null;
+  id: string | null;
+  net_amount: number | null;
+  status: string | null;
+  projects:
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }
+    | null
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }[];
+};
+
+type DashboardTransactionInvestmentRow = {
+  amount: number | null;
+  created_at: string | null;
+  id: string | null;
+  status: string | null;
+  projects:
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }
+    | null
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }[];
+};
+
+type DashboardTransactionDistributionRow = {
   created_at: string | null;
   id: string | null;
   net_amount: number | null;
@@ -297,6 +332,64 @@ export async function fetchDashboardDistributions(
       };
     }),
   });
+}
+
+export async function fetchDashboardTransactions(
+  supabase: SupabaseClient,
+  investorId: string,
+  locale: AppLocale,
+) {
+  const [{ data: investments }, { data: distributions }] = await Promise.all([
+    supabase
+      .from("investments")
+      .select("id,amount,status,created_at,projects(title_bg,title_en)")
+      .eq("investor_id", investorId),
+    supabase
+      .from("distributions")
+      .select("id,net_amount,status,created_at,projects(title_bg,title_en)")
+      .eq("investor_id", investorId),
+  ]);
+
+  const transactions = [
+    ...(investments ?? []).map((item: DashboardTransactionInvestmentRow) => {
+      const relatedProject = Array.isArray(item.projects)
+        ? item.projects[0]
+        : item.projects;
+
+      return {
+        amount: Number(item.amount ?? 0),
+        createdAt: item.created_at ?? "",
+        id: item.id ?? "",
+        kind: "debit" as const,
+        label:
+          locale === "bg"
+            ? (relatedProject?.title_bg ?? relatedProject?.title_en ?? "")
+            : (relatedProject?.title_en ?? relatedProject?.title_bg ?? ""),
+        source: item.status ?? "investment",
+      };
+    }),
+    ...(distributions ?? []).map(
+      (item: DashboardTransactionDistributionRow) => {
+        const relatedProject = Array.isArray(item.projects)
+          ? item.projects[0]
+          : item.projects;
+
+        return {
+          amount: Number(item.net_amount ?? 0),
+          createdAt: item.created_at ?? "",
+          id: item.id ?? "",
+          kind: "credit" as const,
+          label:
+            locale === "bg"
+              ? (relatedProject?.title_bg ?? relatedProject?.title_en ?? "")
+              : (relatedProject?.title_en ?? relatedProject?.title_bg ?? ""),
+          source: item.status ?? "distribution",
+        };
+      },
+    ),
+  ];
+
+  return buildDashboardTransactions({ transactions });
 }
 
 export async function fetchDashboardProfile(
