@@ -38,6 +38,10 @@ export function isProjectInvestPath(pathname: string): boolean {
   return /^\/(en|bg)\/projects\/[^/]+\/invest(\/|$)/.test(pathname);
 }
 
+export function isAdminPath(pathname: string): boolean {
+  return /^\/(en|bg)\/admin(\/|$)/.test(pathname);
+}
+
 export function hasAuthSessionCookie(cookieHeader: string | null): boolean {
   if (!cookieHeader) {
     return false;

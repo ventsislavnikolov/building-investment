@@ -2,6 +2,7 @@ import {
   defaultLocale,
   getLocalizedPath,
   hasAuthSessionCookie,
+  isAdminPath,
   isDashboardPath,
   isProjectInvestPath,
   isSupportedLocale,
@@ -39,6 +40,12 @@ describe("routing helpers", () => {
     expect(isProjectInvestPath("/bg/projects/sofia-apartment-reposition")).toBe(
       false,
     );
+  });
+
+  it("detects admin-protected paths", () => {
+    expect(isAdminPath("/en/admin/dashboard")).toBe(true);
+    expect(isAdminPath("/bg/admin")).toBe(true);
+    expect(isAdminPath("/en/projects")).toBe(false);
   });
 
   it("detects presence of auth session cookie", () => {
