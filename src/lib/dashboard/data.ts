@@ -3,6 +3,7 @@ import { buildDashboardDocuments } from "@/lib/dashboard/documents";
 import { buildDashboardInvestments } from "@/lib/dashboard/investments";
 import { buildPortfolioPositions } from "@/lib/dashboard/portfolio";
 import { buildDashboardProfile } from "@/lib/dashboard/profile";
+import { buildDashboardProgress } from "@/lib/dashboard/progress";
 import { buildDashboardSummary } from "@/lib/dashboard/summary";
 import type { AppLocale } from "@/lib/routing";
 
@@ -67,6 +68,25 @@ type DashboardProfileRow = {
   kyc_status: string | null;
   last_name: string | null;
   locale: string | null;
+};
+
+type DashboardProgressRow = {
+  budget_status: string | null;
+  id: string | null;
+  published_at: string | null;
+  timeline_status: string | null;
+  title_bg: string | null;
+  title_en: string | null;
+  projects:
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }
+    | null
+    | {
+        title_bg: string | null;
+        title_en: string | null;
+      }[];
 };
 
 export async function fetchDashboardSummary(
@@ -194,5 +214,42 @@ export async function fetchDashboardProfile(
     kycStatus: profile.kyc_status ?? "",
     lastName: profile.last_name ?? "",
     locale: profile.locale ?? "",
+  });
+}
+
+export async function fetchDashboardProgress(
+  supabase: SupabaseClient,
+  locale: AppLocale,
+) {
+  const { data } = await supabase
+    .from("progress_updates")
+    .select(
+      "id,title_bg,title_en,budget_status,timeline_status,published_at,projects(title_bg,title_en)",
+    )
+    .eq("is_published", true)
+    .order("published_at", { ascending: false })
+    .limit(20);
+
+  return buildDashboardProgress({
+    updates: (data ?? []).map((item: DashboardProgressRow) => {
+      const relatedProject = Array.isArray(item.projects)
+        ? item.projects[0]
+        : item.projects;
+
+      return {
+        budgetStatus: item.budget_status ?? "",
+        id: item.id ?? "",
+        projectTitle:
+          locale === "bg"
+            ? (relatedProject?.title_bg ?? relatedProject?.title_en ?? "")
+            : (relatedProject?.title_en ?? relatedProject?.title_bg ?? ""),
+        publishedAt: item.published_at ?? "",
+        timelineStatus: item.timeline_status ?? "",
+        title:
+          locale === "bg"
+            ? (item.title_bg ?? item.title_en ?? "")
+            : (item.title_en ?? item.title_bg ?? ""),
+      };
+    }),
   });
 }
