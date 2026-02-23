@@ -71,6 +71,24 @@ export default async function AdminDashboardPage({
         >
           {t(locale, "admin.investments.link")}
         </Link>
+        <Link
+          href={`/${locale}/admin/budget`}
+          className="inline-flex items-center justify-center rounded-full border border-foreground/20 bg-surface/80 px-6 py-3 text-sm font-semibold tracking-[0.08em] text-foreground uppercase transition hover:bg-white/70"
+        >
+          {t(locale, "admin.budget.link")}
+        </Link>
+        <Link
+          href={`/${locale}/admin/contractors`}
+          className="inline-flex items-center justify-center rounded-full border border-foreground/20 bg-surface/80 px-6 py-3 text-sm font-semibold tracking-[0.08em] text-foreground uppercase transition hover:bg-white/70"
+        >
+          {t(locale, "admin.contractors.link")}
+        </Link>
+        <Link
+          href={`/${locale}/admin/documents`}
+          className="inline-flex items-center justify-center rounded-full border border-foreground/20 bg-surface/80 px-6 py-3 text-sm font-semibold tracking-[0.08em] text-foreground uppercase transition hover:bg-white/70"
+        >
+          {t(locale, "admin.documents.link")}
+        </Link>
       </div>
     </main>
   );
