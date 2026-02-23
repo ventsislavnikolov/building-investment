@@ -5,6 +5,7 @@ import {
   getLocalizedPath,
   hasAuthSessionCookie,
   isDashboardPath,
+  isProjectInvestPath,
 } from "@/lib/routing";
 
 export function proxy(request: NextRequest) {
@@ -18,7 +19,7 @@ export function proxy(request: NextRequest) {
   }
 
   if (
-    isDashboardPath(pathname) &&
+    (isDashboardPath(pathname) || isProjectInvestPath(pathname)) &&
     !hasAuthSessionCookie(request.headers.get("cookie"))
   ) {
     const locale = getLocaleFromPath(pathname) ?? "en";

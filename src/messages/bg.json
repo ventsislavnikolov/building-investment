@@ -95,5 +95,11 @@
   "projects.card.strategy": "Стратегия",
   "projects.card.irr": "Очаквана IRR",
   "projects.card.funded": "Финансирано",
+  "projects.invest.cta": "Инвестирай сега",
+  "projects.invest.title": "Стартиране на инвестиционен checkout",
+  "projects.invest.subtitle": "Въведи сума, за да продължиш към защитен checkout.",
+  "projects.invest.amount": "Сума за инвестиция (EUR)",
+  "projects.invest.range": "Позволен диапазон:",
+  "projects.invest.submit": "Продължи към checkout",
   "projects.empty": "Няма проекти по избраните филтри."
 }

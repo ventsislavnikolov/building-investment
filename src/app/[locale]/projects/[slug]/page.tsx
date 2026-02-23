@@ -56,6 +56,14 @@ export default async function ProjectDetailPage({
           </p>
         </article>
       </div>
+      <div className="mt-8">
+        <Link
+          href={`/${locale}/projects/${project.slug}/invest`}
+          className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-semibold tracking-[0.08em] text-accent-foreground uppercase transition hover:translate-y-[-1px] hover:bg-[#174f3d]"
+        >
+          {t(locale, "projects.invest.cta")}
+        </Link>
+      </div>
     </main>
   );
 }

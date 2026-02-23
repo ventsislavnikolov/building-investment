@@ -95,5 +95,11 @@
   "projects.card.strategy": "Strategy",
   "projects.card.irr": "Expected IRR",
   "projects.card.funded": "Funded",
+  "projects.invest.cta": "Invest Now",
+  "projects.invest.title": "Start Investment Checkout",
+  "projects.invest.subtitle": "Enter your amount to continue to secure checkout.",
+  "projects.invest.amount": "Investment amount (EUR)",
+  "projects.invest.range": "Allowed range:",
+  "projects.invest.submit": "Continue Checkout",
   "projects.empty": "No projects match your filters."
 }

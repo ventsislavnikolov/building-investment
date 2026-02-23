@@ -34,6 +34,10 @@ export function isDashboardPath(pathname: string): boolean {
   return /^\/(en|bg)\/dashboard(\/|$)/.test(pathname);
 }
 
+export function isProjectInvestPath(pathname: string): boolean {
+  return /^\/(en|bg)\/projects\/[^/]+\/invest(\/|$)/.test(pathname);
+}
+
 export function hasAuthSessionCookie(cookieHeader: string | null): boolean {
   if (!cookieHeader) {
     return false;

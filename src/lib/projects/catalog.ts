@@ -20,6 +20,8 @@ type CatalogProject = {
   expectedIrrPct: number;
   fundedPct: number;
   id: string;
+  maxInvestment: number;
+  minInvestment: number;
   slug: string;
   strategy: ProjectStrategy;
   title_bg: string;
@@ -34,6 +36,8 @@ const projects: CatalogProject[] = [
     city: "Sofia",
     fundedPct: 46,
     expectedIrrPct: 14.2,
+    minInvestment: 500,
+    maxInvestment: 50000,
     title_en: "Sofia Apartment Reposition",
     title_bg: "Репозициониране на апартамент в София",
   },
@@ -44,6 +48,8 @@ const projects: CatalogProject[] = [
     city: "Varna",
     fundedPct: 63,
     expectedIrrPct: 10.5,
+    minInvestment: 500,
+    maxInvestment: 40000,
     title_en: "Varna Seaside Rentals",
     title_bg: "Варненски апартаменти под наем",
   },
@@ -54,6 +60,8 @@ const projects: CatalogProject[] = [
     city: "Plovdiv",
     fundedPct: 28,
     expectedIrrPct: 16.1,
+    minInvestment: 1000,
+    maxInvestment: 60000,
     title_en: "Plovdiv Urban Hub",
     title_bg: "Градски комплекс Пловдив",
   },
@@ -64,6 +72,8 @@ const projects: CatalogProject[] = [
     city: "Burgas",
     fundedPct: 74,
     expectedIrrPct: 12.3,
+    minInvestment: 500,
+    maxInvestment: 35000,
     title_en: "Burgas Mixed Yield",
     title_bg: "Смесена доходност Бургас",
   },
@@ -153,6 +163,8 @@ export function getProjectBySlug(slug: string, locale: AppLocale) {
     expectedIrrPct: project.expectedIrrPct,
     fundedPct: project.fundedPct,
     id: project.id,
+    maxInvestment: project.maxInvestment,
+    minInvestment: project.minInvestment,
     slug: project.slug,
     strategy: project.strategy,
     title: locale === "bg" ? project.title_bg : project.title_en,

@@ -3,6 +3,7 @@ import {
   getLocalizedPath,
   hasAuthSessionCookie,
   isDashboardPath,
+  isProjectInvestPath,
   isSupportedLocale,
   supportedLocales,
 } from "@/lib/routing";
@@ -29,6 +30,15 @@ describe("routing helpers", () => {
     expect(isDashboardPath("/en/dashboard")).toBe(true);
     expect(isDashboardPath("/bg/dashboard/investments")).toBe(true);
     expect(isDashboardPath("/en/projects")).toBe(false);
+  });
+
+  it("detects project invest protected paths", () => {
+    expect(
+      isProjectInvestPath("/en/projects/varna-seaside-rentals/invest"),
+    ).toBe(true);
+    expect(isProjectInvestPath("/bg/projects/sofia-apartment-reposition")).toBe(
+      false,
+    );
   });
 
   it("detects presence of auth session cookie", () => {
