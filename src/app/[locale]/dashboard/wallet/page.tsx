@@ -2,84 +2,86 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { evaluateDashboardAccess } from "@/lib/auth/session";
 import { fetchDashboardSummary } from "@/lib/dashboard/data";
+import { buildWalletSnapshot } from "@/lib/dashboard/wallet";
 import { t } from "@/lib/i18n";
 import { defaultLocale, isSupportedLocale } from "@/lib/routing";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-type DashboardPageProps = {
+type WalletPageProps = {
   params: Promise<{ locale: string }>;
 };
 
-export default async function DashboardPage({ params }: DashboardPageProps) {
+export default async function WalletPage({ params }: WalletPageProps) {
   const { locale: rawLocale } = await params;
   const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
 
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase.auth.getUser();
-  const access = evaluateDashboardAccess(locale, data.user);
+  const access = evaluateDashboardAccess(
+    locale,
+    data.user,
+    `/${locale}/dashboard/wallet`,
+  );
 
   if (!access.ok) {
     redirect(access.redirectTo);
   }
 
   const summary = await fetchDashboardSummary(supabase, access.user.id);
+  const wallet = buildWalletSnapshot({
+    totalInvested: summary.totalInvested,
+    totalReturned: summary.totalReturned,
+  });
 
   return (
-    <main className="mx-auto min-h-screen max-w-4xl px-8 py-20">
-      <h1 className="font-[var(--font-display)] text-5xl text-foreground">
-        {t(locale, "dashboard.title")}
+    <main className="mx-auto min-h-screen max-w-5xl px-8 py-20">
+      <Link
+        href={`/${locale}/dashboard`}
+        className="text-sm font-semibold tracking-[0.08em] text-muted uppercase"
+      >
+        ← {t(locale, "dashboard.title")}
+      </Link>
+
+      <h1 className="mt-6 font-[var(--font-display)] text-5xl text-foreground">
+        {t(locale, "dashboard.wallet.title")}
       </h1>
       <p className="mt-4 text-lg text-muted">
-        {t(locale, "dashboard.signedInAs")}{" "}
-        {access.user.email ?? access.user.id}
+        {t(locale, "dashboard.wallet.subtitle")}
       </p>
-      <div className="mt-8 grid grid-cols-2 gap-4">
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <article className="rounded-2xl border border-foreground/10 bg-white/70 p-4">
           <p className="text-sm text-muted">
-            {t(locale, "dashboard.activeInvestments")}
+            {t(locale, "dashboard.wallet.committed")}
           </p>
           <p className="mt-2 text-3xl font-semibold text-foreground">
-            {summary.activeInvestments}
+            €{wallet.committedCapital.toFixed(2)}
           </p>
         </article>
         <article className="rounded-2xl border border-foreground/10 bg-white/70 p-4">
           <p className="text-sm text-muted">
-            {t(locale, "dashboard.totalInvested")}
+            {t(locale, "dashboard.wallet.returns")}
           </p>
           <p className="mt-2 text-3xl font-semibold text-foreground">
-            €{summary.totalInvested.toFixed(2)}
+            €{wallet.realizedReturns.toFixed(2)}
           </p>
         </article>
         <article className="rounded-2xl border border-foreground/10 bg-white/70 p-4">
           <p className="text-sm text-muted">
-            {t(locale, "dashboard.totalReturned")}
+            {t(locale, "dashboard.wallet.netExposure")}
           </p>
           <p className="mt-2 text-3xl font-semibold text-foreground">
-            €{summary.totalReturned.toFixed(2)}
+            €{wallet.netExposure.toFixed(2)}
           </p>
         </article>
         <article className="rounded-2xl border border-foreground/10 bg-white/70 p-4">
           <p className="text-sm text-muted">
-            {t(locale, "dashboard.netExposure")}
+            {t(locale, "dashboard.wallet.yield")}
           </p>
           <p className="mt-2 text-3xl font-semibold text-foreground">
-            €{summary.netExposure.toFixed(2)}
+            {wallet.returnYieldPct.toFixed(1)}%
           </p>
         </article>
-      </div>
-      <div className="mt-8 flex flex-wrap gap-3">
-        <Link
-          href={`/${locale}/dashboard/portfolio`}
-          className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold tracking-[0.08em] text-accent-foreground uppercase transition hover:translate-y-[-1px] hover:bg-[#174f3d]"
-        >
-          {t(locale, "dashboard.viewPortfolio")}
-        </Link>
-        <Link
-          href={`/${locale}/dashboard/wallet`}
-          className="inline-flex items-center justify-center rounded-full border border-foreground/20 bg-surface/80 px-6 py-3 text-sm font-semibold tracking-[0.08em] text-foreground uppercase transition hover:bg-white/70"
-        >
-          {t(locale, "dashboard.viewWallet")}
-        </Link>
       </div>
     </main>
   );

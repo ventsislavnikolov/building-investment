@@ -17,4 +17,17 @@ describe("dashboard session access", () => {
     expect(result.ok).toBe(false);
     expect(result.redirectTo).toBe("/bg/login?next=%2Fbg%2Fdashboard");
   });
+
+  it("supports custom next path for nested dashboard routes", () => {
+    const result = evaluateDashboardAccess(
+      "en",
+      null,
+      "/en/dashboard/portfolio",
+    );
+
+    expect(result.ok).toBe(false);
+    expect(result.redirectTo).toBe(
+      "/en/login?next=%2Fen%2Fdashboard%2Fportfolio",
+    );
+  });
 });

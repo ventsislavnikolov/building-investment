@@ -18,12 +18,13 @@ type AccessDenied = {
 export function evaluateDashboardAccess(
   locale: AppLocale,
   user: DashboardUser | null,
+  nextPath = `/${locale}/dashboard`,
 ): AccessAllowed | AccessDenied {
   if (!user) {
-    const nextPath = encodeURIComponent(`/${locale}/dashboard`);
+    const encodedNextPath = encodeURIComponent(nextPath);
     return {
       ok: false,
-      redirectTo: `/${locale}/login?next=${nextPath}`,
+      redirectTo: `/${locale}/login?next=${encodedNextPath}`,
     };
   }
 

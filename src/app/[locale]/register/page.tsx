@@ -1,40 +1,37 @@
 import Link from "next/link";
-import { LoginForm } from "@/components/auth/login-form";
+import { RegisterForm } from "@/components/auth/register-form";
 import { t } from "@/lib/i18n";
 import { defaultLocale, isSupportedLocale } from "@/lib/routing";
 
-type LoginPageProps = {
+type RegisterPageProps = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ error?: string; next?: string }>;
+  searchParams?: Promise<{ next?: string }>;
 };
 
-export default async function LoginPage({
+export default async function RegisterPage({
   params,
   searchParams,
-}: LoginPageProps) {
+}: RegisterPageProps) {
   const { locale: rawLocale } = await params;
-  const { error, next } = await searchParams;
   const locale = isSupportedLocale(rawLocale) ? rawLocale : defaultLocale;
+  const { next } = (await searchParams) ?? {};
 
   return (
     <main className="mx-auto min-h-screen max-w-4xl px-8 py-20">
       <h1 className="font-[var(--font-display)] text-5xl text-foreground">
-        {t(locale, "login.title")}
+        {t(locale, "register.title")}
       </h1>
-      <p className="mt-4 text-lg text-muted">{t(locale, "login.subtitle")}</p>
-
-      <LoginForm
-        locale={locale}
-        next={next ?? `/${locale}/dashboard`}
-        initialError={error}
-      />
+      <p className="mt-4 text-lg text-muted">
+        {t(locale, "register.subtitle")}
+      </p>
+      <RegisterForm locale={locale} next={next ?? `/${locale}/dashboard`} />
       <p className="mt-8 text-sm text-muted">
-        {t(locale, "login.noAccount")}{" "}
+        {t(locale, "register.haveAccount")}{" "}
         <Link
-          href={`/${locale}/register`}
+          href={`/${locale}/login`}
           className="font-semibold text-accent transition hover:opacity-80"
         >
-          {t(locale, "login.registerLink")}
+          {t(locale, "register.loginLink")}
         </Link>
       </p>
     </main>
