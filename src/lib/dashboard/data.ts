@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { buildDashboardDocuments } from "@/lib/dashboard/documents";
 import { buildDashboardInvestments } from "@/lib/dashboard/investments";
+import { buildDashboardKycStatus } from "@/lib/dashboard/kyc";
 import { buildPortfolioPositions } from "@/lib/dashboard/portfolio";
 import { buildDashboardProfile } from "@/lib/dashboard/profile";
 import { buildDashboardProgress } from "@/lib/dashboard/progress";
@@ -251,5 +252,26 @@ export async function fetchDashboardProgress(
             : (item.title_en ?? item.title_bg ?? ""),
       };
     }),
+  });
+}
+
+export async function fetchDashboardKycStatus(
+  supabase: SupabaseClient,
+  investorId: string,
+) {
+  const { data } = await supabase
+    .from("profiles")
+    .select("kyc_status,kyc_verified_at")
+    .eq("id", investorId)
+    .maybeSingle();
+
+  const profile = (data ?? {}) as {
+    kyc_status?: string | null;
+    kyc_verified_at?: string | null;
+  };
+
+  return buildDashboardKycStatus({
+    kycStatus: profile.kyc_status ?? "",
+    verifiedAt: profile.kyc_verified_at ?? "",
   });
 }

@@ -104,6 +104,12 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
         >
           {t(locale, "dashboard.viewProgress")}
         </Link>
+        <Link
+          href={`/${locale}/dashboard/kyc`}
+          className="inline-flex items-center justify-center rounded-full border border-foreground/20 bg-surface/80 px-6 py-3 text-sm font-semibold tracking-[0.08em] text-foreground uppercase transition hover:bg-white/70"
+        >
+          {t(locale, "dashboard.viewKyc")}
+        </Link>
       </div>
     </main>
   );
