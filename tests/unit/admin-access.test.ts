@@ -35,4 +35,17 @@ describe("admin access", () => {
     expect(result.ok).toBe(false);
     expect(result.redirectTo).toBe("/bg/dashboard");
   });
+
+  it("supports custom admin next path for login redirects", () => {
+    const result = evaluateAdminAccess(
+      "en",
+      null,
+      "/en/admin/projects?state=pipeline",
+    );
+
+    expect(result.ok).toBe(false);
+    expect(result.redirectTo).toBe(
+      "/en/login?next=%2Fen%2Fadmin%2Fprojects%3Fstate%3Dpipeline",
+    );
+  });
 });

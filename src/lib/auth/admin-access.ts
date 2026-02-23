@@ -20,11 +20,13 @@ const allowedRoles = new Set(["admin", "project_owner"]);
 export function evaluateAdminAccess(
   locale: AppLocale,
   user: AdminUser | null,
+  nextPath = `/${locale}/admin/dashboard`,
 ): AdminAccessAllowed | AdminAccessDenied {
   if (!user) {
+    const encodedNextPath = encodeURIComponent(nextPath);
     return {
       ok: false,
-      redirectTo: `/${locale}/login?next=${encodeURIComponent(`/${locale}/admin/dashboard`)}`,
+      redirectTo: `/${locale}/login?next=${encodedNextPath}`,
     };
   }
 
