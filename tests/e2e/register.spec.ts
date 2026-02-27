@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("register page renders English copy and form fields", async ({ page }) => {
-  await page.goto("/en/register");
+  await page.goto("/register");
 
   await expect(
     page.getByRole("heading", { name: "Create Investor Account" }),

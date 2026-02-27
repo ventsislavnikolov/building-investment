@@ -1,8 +1,10 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import {
+  defaultLocale,
+  getCanonicalPath,
+  getInternalLocalizedPath,
   getLocaleFromPath,
-  getLocalizedPath,
   hasAuthSessionCookie,
   isAdminPath,
   isDashboardPath,
@@ -11,24 +13,32 @@ import {
 
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
-  const localizedPath = getLocalizedPath(pathname);
+  const canonicalPath = getCanonicalPath(pathname);
+  const internalLocalizedPath = getInternalLocalizedPath(canonicalPath);
 
-  if (localizedPath !== pathname) {
+  if (canonicalPath !== pathname) {
     return NextResponse.redirect(
-      new URL(`${localizedPath}${search}`, request.url),
+      new URL(`${canonicalPath}${search}`, request.url),
     );
   }
 
   if (
-    (isDashboardPath(pathname) ||
-      isProjectInvestPath(pathname) ||
-      isAdminPath(pathname)) &&
+    (isDashboardPath(internalLocalizedPath) ||
+      isProjectInvestPath(internalLocalizedPath) ||
+      isAdminPath(internalLocalizedPath)) &&
     !hasAuthSessionCookie(request.headers.get("cookie"))
   ) {
-    const locale = getLocaleFromPath(pathname) ?? "en";
-    const loginUrl = new URL(`/${locale}/login`, request.url);
-    loginUrl.searchParams.set("next", pathname);
+    const locale = getLocaleFromPath(internalLocalizedPath) ?? defaultLocale;
+    const loginPath = locale === defaultLocale ? "/login" : `/${locale}/login`;
+    const loginUrl = new URL(loginPath, request.url);
+    loginUrl.searchParams.set("next", canonicalPath);
     return NextResponse.redirect(loginUrl);
+  }
+
+  if (internalLocalizedPath !== pathname) {
+    return NextResponse.rewrite(
+      new URL(`${internalLocalizedPath}${search}`, request.url),
+    );
   }
 
   return NextResponse.next();

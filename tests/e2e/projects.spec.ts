@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("projects page applies search and strategy filters", async ({ page }) => {
-  await page.goto("/en/projects?strategy=buy_to_rent&q=varna");
+  await page.goto("/projects?strategy=buy_to_rent&q=varna");
   await expect(page.getByRole("heading", { name: "Projects" })).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Varna Seaside Rentals" }),
@@ -20,7 +20,7 @@ test("projects page renders Bulgarian copy", async ({ page }) => {
 });
 
 test("projects page applies IRR sort", async ({ page }) => {
-  await page.goto("/en/projects?sort=irr_desc");
+  await page.goto("/projects?sort=irr_desc");
   const headings = page.locator("article h2").filter({
     hasText:
       /Sofia Apartment Reposition|Varna Seaside Rentals|Plovdiv Urban Hub|Burgas Mixed Yield/,

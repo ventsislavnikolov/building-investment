@@ -3,8 +3,8 @@ import { expect, test } from "@playwright/test";
 test("dashboard project detail redirects to login when session cookie is missing", async ({
   page,
 }) => {
-  await page.goto("/en/dashboard/projects/varna-seaside-rentals");
+  await page.goto("/dashboard/projects/varna-seaside-rentals");
   await expect(page).toHaveURL(
-    /\/en\/login\?next=%2Fen%2Fdashboard%2Fprojects%2Fvarna-seaside-rentals$/,
+    /\/login\?next=%2Fdashboard%2Fprojects%2Fvarna-seaside-rentals$/,
   );
 });

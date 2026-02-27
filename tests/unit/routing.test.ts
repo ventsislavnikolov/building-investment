@@ -1,6 +1,7 @@
 import {
   defaultLocale,
-  getLocalizedPath,
+  getCanonicalPath,
+  getInternalLocalizedPath,
   hasAuthSessionCookie,
   isAdminPath,
   isDashboardPath,
@@ -21,10 +22,17 @@ describe("routing helpers", () => {
     expect(isSupportedLocale("de")).toBe(false);
   });
 
-  it("localizes paths that miss locale prefix", () => {
-    expect(getLocalizedPath("/")).toBe("/en");
-    expect(getLocalizedPath("/projects")).toBe("/en/projects");
-    expect(getLocalizedPath("/en/projects")).toBe("/en/projects");
+  it("maps unlocalized paths to internal localized paths", () => {
+    expect(getInternalLocalizedPath("/")).toBe("/en");
+    expect(getInternalLocalizedPath("/projects")).toBe("/en/projects");
+    expect(getInternalLocalizedPath("/bg/projects")).toBe("/bg/projects");
+  });
+
+  it("canonicalizes default-locale paths without /en prefix", () => {
+    expect(getCanonicalPath("/en")).toBe("/");
+    expect(getCanonicalPath("/en/projects")).toBe("/projects");
+    expect(getCanonicalPath("/bg/projects")).toBe("/bg/projects");
+    expect(getCanonicalPath("/projects")).toBe("/projects");
   });
 
   it("detects dashboard-protected paths", () => {

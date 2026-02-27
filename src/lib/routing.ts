@@ -18,16 +18,44 @@ export function getLocaleFromPath(pathname: string): AppLocale | null {
   return isSupportedLocale(firstSegment) ? firstSegment : null;
 }
 
-export function getLocalizedPath(pathname: string): string {
-  if (getLocaleFromPath(pathname)) {
-    return pathname;
+function withLeadingSlash(pathname: string): string {
+  return pathname.startsWith("/") ? pathname : `/${pathname}`;
+}
+
+function stripDefaultLocalePrefix(pathname: string): string {
+  if (pathname === `/${defaultLocale}`) {
+    return "/";
   }
 
-  if (pathname === "/") {
+  if (pathname.startsWith(`/${defaultLocale}/`)) {
+    const strippedPath = pathname.slice(defaultLocale.length + 1);
+    return strippedPath.length === 0 ? "/" : strippedPath;
+  }
+
+  return pathname;
+}
+
+export function getCanonicalPath(pathname: string): string {
+  const normalizedPathname = withLeadingSlash(pathname);
+  return stripDefaultLocalePrefix(normalizedPathname);
+}
+
+export function getInternalLocalizedPath(pathname: string): string {
+  const normalizedPathname = withLeadingSlash(pathname);
+
+  if (getLocaleFromPath(normalizedPathname)) {
+    return normalizedPathname;
+  }
+
+  if (normalizedPathname === "/") {
     return `/${defaultLocale}`;
   }
 
-  return `/${defaultLocale}${pathname}`;
+  return `/${defaultLocale}${normalizedPathname}`;
+}
+
+export function getLocalizedPath(pathname: string): string {
+  return getCanonicalPath(pathname);
 }
 
 export function isDashboardPath(pathname: string): boolean {
