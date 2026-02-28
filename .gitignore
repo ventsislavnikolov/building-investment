@@ -16,3 +16,4 @@ todos.json
 tests/screenshots
 playwright-report
 test-results
+.worktrees
