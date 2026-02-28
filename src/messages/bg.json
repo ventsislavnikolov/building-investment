@@ -1,74 +1,74 @@
 {
-  "common": {
-    "loading": "Зареждане...",
-    "error": "Нещо се обърка",
-    "retry": "Опитай отново",
-    "save": "Запази",
-    "cancel": "Отказ",
-    "delete": "Изтрий",
-    "edit": "Редактирай",
-    "back": "Назад",
-    "next": "Напред",
-    "submit": "Изпрати",
-    "search": "Търсене",
-    "filter": "Филтър",
-    "sort": "Сортирай",
-    "noResults": "Няма намерени резултати"
-  },
-  "nav": {
-    "home": "Начало",
-    "projects": "Проекти",
-    "dashboard": "Табло",
-    "login": "Вход",
-    "register": "Регистрация",
-    "logout": "Изход",
-    "settings": "Настройки"
-  },
-  "auth": {
-    "login": "Вход",
-    "register": "Регистрация",
-    "logout": "Изход",
-    "email": "Имейл",
-    "password": "Парола",
-    "forgotPassword": "Забравена парола?",
-    "resetPassword": "Нулиране на парола",
-    "loginTitle": "Добре дошли обратно",
-    "registerTitle": "Създайте акаунт"
-  },
-  "projects": {
-    "title": "Инвестиционни проекти",
-    "catalog": "Разгледайте проекти",
-    "detail": "Детайли за проекта",
-    "invest": "Инвестирай сега",
-    "minInvestment": "Мин. инвестиция",
-    "irr": "ВНД",
-    "duration": "Продължителност",
-    "grossYield": "Брутна доходност",
-    "funded": "Финансирано",
-    "strategy": "Стратегия",
-    "location": "Местоположение",
-    "type": "Тип"
-  },
-  "dashboard": {
-    "overview": "Преглед",
-    "portfolio": "Портфолио",
-    "investments": "Инвестиции",
-    "wallet": "Портфейл",
-    "transactions": "Транзакции",
-    "distributions": "Разпределения",
-    "favorites": "Любими",
-    "documents": "Документи",
-    "notifications": "Известия",
-    "settings": "Настройки",
-    "kyc": "Верификация на самоличност"
-  },
-  "checkout": {
-    "title": "Завърши инвестицията",
-    "paymentMethod": "Начин на плащане",
-    "billingSummary": "Обобщение на плащането",
-    "subtotal": "Междинна сума",
-    "total": "Общо",
-    "checkout": "Плати",
-    "success": "Инвестицията е потвърдена!"
-  }
+	"common": {
+		"loading": "Зареждане...",
+		"error": "Нещо се обърка",
+		"retry": "Опитай отново",
+		"save": "Запази",
+		"cancel": "Отказ",
+		"delete": "Изтрий",
+		"edit": "Редактирай",
+		"back": "Назад",
+		"next": "Напред",
+		"submit": "Изпрати",
+		"search": "Търсене",
+		"filter": "Филтър",
+		"sort": "Сортирай",
+		"noResults": "Няма намерени резултати"
+	},
+	"nav": {
+		"home": "Начало",
+		"projects": "Проекти",
+		"dashboard": "Табло",
+		"login": "Вход",
+		"register": "Регистрация",
+		"logout": "Изход",
+		"settings": "Настройки"
+	},
+	"auth": {
+		"login": "Вход",
+		"register": "Регистрация",
+		"logout": "Изход",
+		"email": "Имейл",
+		"password": "Парола",
+		"forgotPassword": "Забравена парола?",
+		"resetPassword": "Нулиране на парола",
+		"loginTitle": "Добре дошли обратно",
+		"registerTitle": "Създайте акаунт"
+	},
+	"projects": {
+		"title": "Инвестиционни проекти",
+		"catalog": "Разгледайте проекти",
+		"detail": "Детайли за проекта",
+		"invest": "Инвестирай сега",
+		"minInvestment": "Мин. инвестиция",
+		"irr": "ВНД",
+		"duration": "Продължителност",
+		"grossYield": "Брутна доходност",
+		"funded": "Финансирано",
+		"strategy": "Стратегия",
+		"location": "Местоположение",
+		"type": "Тип"
+	},
+	"dashboard": {
+		"overview": "Преглед",
+		"portfolio": "Портфолио",
+		"investments": "Инвестиции",
+		"wallet": "Портфейл",
+		"transactions": "Транзакции",
+		"distributions": "Разпределения",
+		"favorites": "Любими",
+		"documents": "Документи",
+		"notifications": "Известия",
+		"settings": "Настройки",
+		"kyc": "Верификация на самоличност"
+	},
+	"checkout": {
+		"title": "Завърши инвестицията",
+		"paymentMethod": "Начин на плащане",
+		"billingSummary": "Обобщение на плащането",
+		"subtotal": "Междинна сума",
+		"total": "Общо",
+		"checkout": "Плати",
+		"success": "Инвестицията е потвърдена!"
+	}
 }
