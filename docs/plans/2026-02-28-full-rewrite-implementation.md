@@ -8,13 +8,54 @@
 
 **Tech Stack:** TanStack Start, TanStack Router, TanStack Query, TanStack Form, TanStack Store, Supabase SSR, shadcn/ui, Tailwind CSS 4, Plus Jakarta Sans, Stripe, Sumsub, Resend, Recharts, Sentry, Biome, Jest, Playwright, pnpm, Vercel
 
-**Design Reference:** Keyturn (Behance #169315941) — blue `#1B59E8` primary, `#EEF2F6` bg, `#151515` text, Plus Jakarta Sans, icon-only collapsible sidebar, white card app shell on blue outer frame.
+**Design Reference:** Keyturn (Behance #169315941) — blue `#1B59E8` primary, `#EEF2F6` bg, `#151515` text, Plus Jakarta Sans, icon-only collapsible sidebar, white card app shell on blue outer frame. Full screen index: `design-images/SCREENS.md`.
 
 **TDD Rule:** Every task starts with a failing test. Never write implementation before the test is red.
 **Skill to use for UI tasks:** `frontend-design`
 **Skill to use for debugging:** `superpowers:systematic-debugging`
 **Skill to use before any commit claiming "done":** `superpowers:verification-before-completion`
 **Responsive rule:** Every UI task must render correctly at 375px, 768px, 1440px. Verify with Playwright MCP or Chrome DevTools MCP before marking done.
+
+---
+
+## Design Image Reference
+
+All reference images are in `design-images/`. Full index: `design-images/SCREENS.md`.
+
+| Image file | Screen | Use when building |
+|------------|--------|-------------------|
+| `2f6699...9e041.png` | Design system — colors + font | Task 1.1 (tokens), any page |
+| `35293a...a04ad.png` + `35293a(1)...png` | Marketing landing page | Task 2.2 (landing) |
+| `5dc528...a4469.png` | Property catalog + map + filter panel | Task 4.1 (catalog) |
+| `faf442...a1378.png` | Project detail top — financial snapshot panel | Task 4.2 (detail top) |
+| `051a85...a6974.png` | Project detail full — calculator, financials table, charts | Task 4.2 (detail scroll) |
+| `67cbfb...9b2b4.png` | Checkout (payment form + billing summary) + success | Task 5.2 (checkout), Task 5.3 (success) |
+| `bbc941...a2270.png` | Portfolio / analyze tool — form + metrics + charts | Task 6.4 (portfolio) |
+| `f5aac4...a57d1.png` | Saved searches / watchlist | Task 6.6 (favorites) |
+| `0371e3...9d1d7.png` | Messages and notifications | Task 6.10 (notifications) |
+| `f3512a...a32d0.png` | Settings (all tabs) + Help | Task 6.12 (settings) |
+
+### Playwright Visual Check Pattern
+
+Every UI milestone task should end with a visual check:
+
+```typescript
+// tests/e2e/visual/[page].spec.ts
+import { test, expect } from '@playwright/test'
+
+test('project catalog matches design', async ({ page }) => {
+  await page.goto('/projects')
+  await page.waitForLoadState('networkidle')
+  // Compare key layout elements — not pixel-perfect, check structure
+  await expect(page.locator('[data-testid="property-card"]').first()).toBeVisible()
+  await expect(page.locator('[data-testid="filter-bar"]')).toBeVisible()
+  // Take screenshot for manual comparison against design-images/5dc528...png
+  await page.screenshot({ path: 'tests/screenshots/projects-catalog.png', fullPage: true })
+})
+```
+
+Screenshot output path: `tests/screenshots/[page].png`
+Compare manually against `design-images/` reference using Playwright MCP trace viewer.
 
 ---
 
@@ -766,6 +807,7 @@ git commit -m "feat(ui): init shadcn with Keyturn design tokens and base compone
 ### Task 1.9: App shell layout components
 
 > Use `frontend-design` skill for this task.
+> **Design refs:** `faf442...png` (top bar + sidebar layout), `5dc528...png` (sidebar nav items active state), `f3512a...png` (sidebar with Settings active)
 
 **Files:**
 - Create: `app/components/shell/app-shell.tsx`
@@ -1047,6 +1089,8 @@ git commit -m "feat(marketing): add nav and footer components"
 ---
 
 ### Task 2.2: Landing page
+
+> **Design refs:** `design-images/35293a...a04ad.png` and `design-images/35293a169315941(1)...png` — full landing page wireframe with all 10 sections; `design-images/5bee51...png` and `design-images/8dc055...png` — hero with catalog preview screenshot
 
 **Files:**
 - Create: `app/routes/($locale)/index.tsx`
@@ -1372,6 +1416,8 @@ git commit -m "feat(projects): add getPublishedProjects and getProjectBySlug ser
 
 ### Task 4.2: Project catalog page
 
+> **Design refs:** `design-images/5dc528...a4469.png` — catalog list+map view, filter panel, sort bar, property card grid
+
 **Files:**
 - Create: `app/routes/($locale)/projects/index.tsx`
 - Create: `app/components/projects/project-card.tsx`
@@ -1468,6 +1514,8 @@ git commit -m "feat(projects): add project catalog with filter, sort and grid"
 ---
 
 ### Task 4.3: Project detail page (public)
+
+> **Design refs:** `design-images/faf442...a1378.png` (top section — image + financial snapshot panel) and `design-images/051a85...a6974.png` (full scroll — calculator, financials table, visualize returns chart)
 
 **Files:**
 - Create: `app/routes/($locale)/projects/$slug/index.tsx`
@@ -1678,6 +1726,8 @@ git commit -m "feat(stripe): add investment checkout and webhook handler"
 
 ### Task 5.2: Checkout page
 
+> **Design ref:** `design-images/67cbfb...9b2b4.png` — left: payment method list (radio, expands to card form, Apple Pay, Google Pay, PayPal); right: light-blue `#CEE8FB` billing summary card with project thumbnail + metrics + total + blue Checkout button
+
 **Files:**
 - Create: `app/routes/($locale)/projects/$slug/invest/index.tsx`
 - Create: `app/components/invest/amount-selector.tsx`
@@ -1863,14 +1913,14 @@ Follow the same TDD pattern for each. Use `frontend-design` skill for UI.
 
 **6.3 — My Investments (`/dashboard/investments`)**
 - Query: `investments` joined with `projects`
-- Design: Keyturn "Your deals" — 4-col project cards, sort/filter bar
+- Design: Keyturn "Your deals" — 4-col project cards, sort/filter bar (see `8dc055...png`, `5bee51...png` — card grid)
 - Server fn: `getMyInvestments()`
 - Card shows: project photo, funded %, invested amount, status pill, IRR, distributions received
 
 **6.4 — Portfolio (`/dashboard/portfolio`)**
 - Charts (Recharts): allocation pie, returns over time area, IRR by project bar
 - Server fn: `getPortfolioAnalytics()`
-- Design: 2-col grid of chart cards
+- Design: see `bbc941...a2270.png` — financial snapshot, in-year stats, seasonalized revenue bar chart, detailed financials table, visualize returns stacked chart
 
 **6.5 — Wallet (`/dashboard/wallet`)**
 - Balance card (large, prominent)
@@ -1888,8 +1938,7 @@ Follow the same TDD pattern for each. Use `frontend-design` skill for UI.
 - Server fn: `getMyDistributions()`
 
 **6.8 — Favorites (`/dashboard/favorites`)**
-- Keyturn "Saved searches" pattern
-- Saved project watchlist — same card as catalog
+- Design: `f5aac4...a57d1.png` — saved search rows, each row expands to mini property cards
 - Server fn: `getFavorites()`, `toggleFavorite()`
 
 **6.9 — Progress updates (`/dashboard/progress`)**
@@ -1903,8 +1952,8 @@ Follow the same TDD pattern for each. Use `frontend-design` skill for UI.
 - Server fn: `getMyDocuments()`
 
 **6.11 — Notifications (`/dashboard/notifications`)**
+- Design: `0371e3...9d1d7.png` — inbox list (left), conversation thread (center), notifications panel (right)
 - List with read/unread state, mark all as read
-- Keyturn notification dropdown pattern (also works as full page)
 - Server fn: `getNotifications()`, `markAsRead()`
 
 **6.12 — KYC (`/dashboard/kyc`)**
@@ -1913,8 +1962,8 @@ Follow the same TDD pattern for each. Use `frontend-design` skill for UI.
 - Server fn: `getKycStatus()`, `createSumsubToken()`
 
 **6.13 — Settings (`/dashboard/settings`)**
-- Tabs: Profile / Password / Notifications
-- Keyturn settings design exactly
+- Design: `f3512a...a32d0.png` — tabs: Profile / Password / Billing / Plans / Notifications; Help page with category cards + FAQ accordion
+- Tabs for our app: Profile / Password / Notifications (billing handled via Stripe portal)
 - Server fns: `updateProfile()`, `updatePassword()`, `updateNotificationPreferences()`
 
 **6.14 — Statements (`/dashboard/statements`)**
