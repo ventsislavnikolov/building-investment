@@ -225,7 +225,55 @@ XX%                [progress bar] XX%
 
 ---
 
+## Responsive Design
+
+Every page must work at all breakpoints. No exceptions.
+
+### Breakpoints
+```
+Mobile:  < 768px  — single column, bottom nav replaces sidebar
+Tablet:  768–1024px — sidebar collapses to icon-only (64px)
+Desktop: > 1024px — sidebar expanded or icon-only (user toggle)
+```
+
+### Rules
+- Mobile-first CSS: base styles = mobile, add `md:` / `lg:` overrides
+- Sidebar: hidden on mobile (hamburger menu + slide-over), icon-only on tablet, collapsible on desktop
+- Property cards: 1-col mobile → 2-col tablet → 4-col desktop
+- Admin tables: horizontal scroll on mobile, full layout on desktop
+- Financial charts: full-width on all breakpoints, simplified on mobile (remove legend clutter)
+- Touch targets: min 44×44px on mobile
+- Font sizes: reduce H1 marketing from 72px → 40px on mobile
+- Test: every UI task must be verified at 375px (iPhone SE), 768px (iPad), 1440px (desktop)
+
+---
+
+## Error Monitoring (Sentry)
+
+- SDK: `@sentry/tanstackstart-react`
+- Captures: unhandled exceptions, server function errors, slow transactions
+- Source maps: uploaded on every Vercel deploy via Sentry GitHub integration
+- Custom error boundaries: wrap each route subtree — `<SentryErrorBoundary>` with fallback UI
+- Manual capture: `Sentry.captureException(err)` in all catch blocks in server functions
+- Environment tagging: `SENTRY_ENVIRONMENT` = `development` | `staging` | `production`
+- Alert rules: notify on new issue, > 10 events/hour, performance regression > 20%
+- Inspect errors: use Chrome DevTools MCP to check browser console, use Vercel MCP to view deploy logs
+
+---
+
 ## Development Workflow
+
+### MCP Servers
+| MCP | When to use |
+|-----|-------------|
+| **Supabase** | Run migrations, query DB, manage RLS policies, inspect tables |
+| **Vercel** | Deploy, check deploy logs, debug preview URLs, manage env vars |
+| **Chrome DevTools** | Inspect console errors, network requests, performance traces |
+| **shadcn** | Add shadcn components, browse available components, get examples |
+| **context7** | Look up latest API docs for TanStack Start/Router/Query, Supabase, Stripe |
+| **Linear** | Create/update milestones, features, tasks; mark as complete after each commit |
+| **Stripe** | Manage products, test webhooks, inspect payment intents |
+| **Playwright** | Run E2E tests, record flows, debug failures with screenshots/traces |
 
 ### Skills
 | When | Skill |
@@ -293,3 +341,6 @@ Progress updated in Linear after each task completes.
 - ~~Design~~ → Keyturn-inspired, Plus Jakarta Sans, #1B59E8 blue
 - ~~Linear~~ → Set up Linear MCP (`claude mcp add linear -- npx -y @linear/mcp-server`)
 - ~~TDD~~ → `tdd` skill (Matt Pocock), available after restart
+- ~~MCPs~~ → Supabase, Vercel, Chrome DevTools, shadcn, context7, Linear, Stripe, Playwright
+- ~~Error monitoring~~ → Sentry (`@sentry/tanstackstart-react`) + Vercel MCP + Chrome DevTools MCP
+- ~~Responsive~~ → Mobile-first, all pages tested at 375px / 768px / 1440px
