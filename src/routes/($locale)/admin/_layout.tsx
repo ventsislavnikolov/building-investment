@@ -1,7 +1,32 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { AppShell } from "~/components/shell/app-shell";
 import { requireAdmin } from "~/lib/auth/guards";
 import { getLocaleFromParams, localePath } from "~/lib/routing";
+import { createSupabaseServerClient } from "~/lib/supabase/server";
+
+const getAdminSessionFn = createServerFn({ method: "GET" }).handler(
+	async () => {
+		const supabase = createSupabaseServerClient();
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+		if (!user) return null;
+
+		const { data: profile } = await supabase
+			.from("profiles")
+			.select("full_name, avatar_url, role")
+			.eq("id", user.id)
+			.maybeSingle();
+
+		return { user, profile };
+	},
+);
+
+const logoutFn = createServerFn().handler(async () => {
+	const supabase = createSupabaseServerClient();
+	await supabase.auth.signOut();
+});
 
 const ADMIN_NAV = (locale: string) => [
 	{
@@ -63,37 +88,20 @@ export const Route = createFileRoute("/($locale)/admin/_layout")({
 	beforeLoad: async ({ params }) => {
 		const locale = getLocaleFromParams((params as { locale?: string }).locale);
 
-		const { createSupabaseServerClient } = await import(
-			"~/lib/supabase/server"
-		);
-		const supabase = createSupabaseServerClient();
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
-
-		if (!user) {
+		const session = await getAdminSessionFn();
+		if (!session) {
 			throw redirect({ to: localePath(locale, "/login") });
 		}
 
-		const { data: profile } = await supabase
-			.from("profiles")
-			.select("full_name, avatar_url, role")
-			.eq("id", user.id)
-			.maybeSingle();
+		requireAdmin(session.profile, locale);
 
-		requireAdmin(profile, locale);
-
-		return { locale, user, profile };
+		return { locale, user: session.user, profile: session.profile };
 	},
 	component: function AdminLayout() {
 		const { locale, user, profile } = Route.useRouteContext();
 
 		async function handleLogout() {
-			const { createSupabaseServerClient } = await import(
-				"~/lib/supabase/server"
-			);
-			const supabase = createSupabaseServerClient();
-			await supabase.auth.signOut();
+			await logoutFn();
 			window.location.href = localePath(locale, "/login");
 		}
 

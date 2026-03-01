@@ -4,28 +4,29 @@ import {
 	notFound,
 	redirect,
 } from "@tanstack/react-router";
+import { createServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { AmountSelector } from "~/components/invest/amount-selector";
 import { BillingSummary } from "~/components/invest/billing-summary";
 import { getLocaleFromParams, localePath } from "~/lib/routing";
+import { createSupabaseServerClient } from "~/lib/supabase/server";
+
+const checkAuthFn = createServerFn({ method: "GET" }).handler(async () => {
+	const supabase = createSupabaseServerClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
+	return user ? { userId: user.id } : null;
+});
 
 export const Route = createFileRoute("/($locale)/projects/$slug/invest/")({
 	beforeLoad: async ({ params }) => {
 		const locale = getLocaleFromParams((params as { locale?: string }).locale);
-		// Server-side auth check: redirect to login if not authenticated
-		const { createSupabaseServerClient } = await import(
-			"~/lib/supabase/server"
-		);
-		const supabase = createSupabaseServerClient();
-		const {
-			data: { user },
-		} = await supabase.auth.getUser();
-		if (!user) {
-			throw redirect({
-				to: localePath(locale, "/login"),
-			});
+		const auth = await checkAuthFn();
+		if (!auth) {
+			throw redirect({ to: localePath(locale, "/login") });
 		}
-		return { locale, userId: user.id };
+		return { locale, userId: auth.userId };
 	},
 	loader: async ({ params, context }) => {
 		const { getProjectBySlug } = await import("~/server/projects");
