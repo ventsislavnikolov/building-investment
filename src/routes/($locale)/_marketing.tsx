@@ -3,7 +3,7 @@ import { MarketingFooter } from "~/components/marketing/footer";
 import { MarketingNav } from "~/components/marketing/nav";
 import { getLocaleFromParams } from "~/lib/routing";
 
-export const Route = createFileRoute("/($locale)/(marketing)/_layout")({
+export const Route = createFileRoute("/($locale)/_marketing")({
 	beforeLoad: ({ params }) => {
 		const locale = getLocaleFromParams((params as { locale?: string }).locale);
 		return { locale };

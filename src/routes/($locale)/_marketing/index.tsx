@@ -12,7 +12,7 @@ import { HowItWorksHeader } from "~/components/marketing/how-it-works-header";
 import { InvestSmarter } from "~/components/marketing/invest-smarter";
 import { getLocaleFromParams } from "~/lib/routing";
 
-export const Route = createFileRoute("/($locale)/(marketing)/")({
+export const Route = createFileRoute("/($locale)/_marketing/")({
 	beforeLoad: ({ params }) => {
 		const locale = getLocaleFromParams((params as { locale?: string }).locale);
 		return { locale };

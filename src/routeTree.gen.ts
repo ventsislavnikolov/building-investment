@@ -12,9 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as localeRegisterRouteImport } from './routes/($locale)/register'
 import { Route as localeLoginRouteImport } from './routes/($locale)/login'
 import { Route as localeForgotPasswordRouteImport } from './routes/($locale)/forgot-password'
+import { Route as localeDashboardRouteImport } from './routes/($locale)/dashboard'
+import { Route as localeAdminRouteImport } from './routes/($locale)/admin'
+import { Route as localeMarketingRouteImport } from './routes/($locale)/_marketing'
 import { Route as localeProjectsIndexRouteImport } from './routes/($locale)/projects/index'
 import { Route as localeDashboardIndexRouteImport } from './routes/($locale)/dashboard/index'
-import { Route as localemarketingIndexRouteImport } from './routes/($locale)/(marketing)/index'
+import { Route as localeMarketingIndexRouteImport } from './routes/($locale)/_marketing/index'
 import { Route as localeDashboardWalletRouteImport } from './routes/($locale)/dashboard/wallet'
 import { Route as localeDashboardTransactionsRouteImport } from './routes/($locale)/dashboard/transactions'
 import { Route as localeDashboardStatementsRouteImport } from './routes/($locale)/dashboard/statements'
@@ -27,7 +30,6 @@ import { Route as localeDashboardInvestmentsRouteImport } from './routes/($local
 import { Route as localeDashboardFavoritesRouteImport } from './routes/($locale)/dashboard/favorites'
 import { Route as localeDashboardDocumentsRouteImport } from './routes/($locale)/dashboard/documents'
 import { Route as localeDashboardDistributionsRouteImport } from './routes/($locale)/dashboard/distributions'
-import { Route as localeDashboardLayoutRouteImport } from './routes/($locale)/dashboard/_layout'
 import { Route as localeAdminMetricsRouteImport } from './routes/($locale)/admin/metrics'
 import { Route as localeAdminInvestorsRouteImport } from './routes/($locale)/admin/investors'
 import { Route as localeAdminInvestmentsRouteImport } from './routes/($locale)/admin/investments'
@@ -35,10 +37,8 @@ import { Route as localeAdminDocumentsRouteImport } from './routes/($locale)/adm
 import { Route as localeAdminDashboardRouteImport } from './routes/($locale)/admin/dashboard'
 import { Route as localeAdminBudgetRouteImport } from './routes/($locale)/admin/budget'
 import { Route as localeAdminAuditRouteImport } from './routes/($locale)/admin/audit'
-import { Route as localeAdminLayoutRouteImport } from './routes/($locale)/admin/_layout'
-import { Route as localemarketingHowItWorksRouteImport } from './routes/($locale)/(marketing)/how-it-works'
-import { Route as localemarketingAboutRouteImport } from './routes/($locale)/(marketing)/about'
-import { Route as localemarketingLayoutRouteImport } from './routes/($locale)/(marketing)/_layout'
+import { Route as localeMarketingHowItWorksRouteImport } from './routes/($locale)/_marketing/how-it-works'
+import { Route as localeMarketingAboutRouteImport } from './routes/($locale)/_marketing/about'
 import { Route as localeProjectsSlugIndexRouteImport } from './routes/($locale)/projects/$slug/index'
 import { Route as localeAdminProjectsIndexRouteImport } from './routes/($locale)/admin/projects/index'
 import { Route as localeAdminProjectsIdRouteImport } from './routes/($locale)/admin/projects/$id'
@@ -61,148 +61,148 @@ const localeForgotPasswordRoute = localeForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const localeDashboardRoute = localeDashboardRouteImport.update({
+  id: '/($locale)/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const localeAdminRoute = localeAdminRouteImport.update({
+  id: '/($locale)/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const localeMarketingRoute = localeMarketingRouteImport.update({
+  id: '/($locale)/_marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const localeProjectsIndexRoute = localeProjectsIndexRouteImport.update({
   id: '/($locale)/projects/',
   path: '/projects/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const localeDashboardIndexRoute = localeDashboardIndexRouteImport.update({
-  id: '/($locale)/dashboard/',
-  path: '/dashboard/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const localemarketingIndexRoute = localemarketingIndexRouteImport.update({
-  id: '/($locale)/(marketing)/',
+  id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => localeDashboardRoute,
+} as any)
+const localeMarketingIndexRoute = localeMarketingIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => localeMarketingRoute,
 } as any)
 const localeDashboardWalletRoute = localeDashboardWalletRouteImport.update({
-  id: '/($locale)/dashboard/wallet',
-  path: '/dashboard/wallet',
-  getParentRoute: () => rootRouteImport,
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => localeDashboardRoute,
 } as any)
 const localeDashboardTransactionsRoute =
   localeDashboardTransactionsRouteImport.update({
-    id: '/($locale)/dashboard/transactions',
-    path: '/dashboard/transactions',
-    getParentRoute: () => rootRouteImport,
+    id: '/transactions',
+    path: '/transactions',
+    getParentRoute: () => localeDashboardRoute,
   } as any)
 const localeDashboardStatementsRoute =
   localeDashboardStatementsRouteImport.update({
-    id: '/($locale)/dashboard/statements',
-    path: '/dashboard/statements',
-    getParentRoute: () => rootRouteImport,
+    id: '/statements',
+    path: '/statements',
+    getParentRoute: () => localeDashboardRoute,
   } as any)
 const localeDashboardSettingsRoute = localeDashboardSettingsRouteImport.update({
-  id: '/($locale)/dashboard/settings',
-  path: '/dashboard/settings',
-  getParentRoute: () => rootRouteImport,
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => localeDashboardRoute,
 } as any)
 const localeDashboardProgressRoute = localeDashboardProgressRouteImport.update({
-  id: '/($locale)/dashboard/progress',
-  path: '/dashboard/progress',
-  getParentRoute: () => rootRouteImport,
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => localeDashboardRoute,
 } as any)
 const localeDashboardPortfolioRoute =
   localeDashboardPortfolioRouteImport.update({
-    id: '/($locale)/dashboard/portfolio',
-    path: '/dashboard/portfolio',
-    getParentRoute: () => rootRouteImport,
+    id: '/portfolio',
+    path: '/portfolio',
+    getParentRoute: () => localeDashboardRoute,
   } as any)
 const localeDashboardNotificationsRoute =
   localeDashboardNotificationsRouteImport.update({
-    id: '/($locale)/dashboard/notifications',
-    path: '/dashboard/notifications',
-    getParentRoute: () => rootRouteImport,
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => localeDashboardRoute,
   } as any)
 const localeDashboardKycRoute = localeDashboardKycRouteImport.update({
-  id: '/($locale)/dashboard/kyc',
-  path: '/dashboard/kyc',
-  getParentRoute: () => rootRouteImport,
+  id: '/kyc',
+  path: '/kyc',
+  getParentRoute: () => localeDashboardRoute,
 } as any)
 const localeDashboardInvestmentsRoute =
   localeDashboardInvestmentsRouteImport.update({
-    id: '/($locale)/dashboard/investments',
-    path: '/dashboard/investments',
-    getParentRoute: () => rootRouteImport,
+    id: '/investments',
+    path: '/investments',
+    getParentRoute: () => localeDashboardRoute,
   } as any)
 const localeDashboardFavoritesRoute =
   localeDashboardFavoritesRouteImport.update({
-    id: '/($locale)/dashboard/favorites',
-    path: '/dashboard/favorites',
-    getParentRoute: () => rootRouteImport,
+    id: '/favorites',
+    path: '/favorites',
+    getParentRoute: () => localeDashboardRoute,
   } as any)
 const localeDashboardDocumentsRoute =
   localeDashboardDocumentsRouteImport.update({
-    id: '/($locale)/dashboard/documents',
-    path: '/dashboard/documents',
-    getParentRoute: () => rootRouteImport,
+    id: '/documents',
+    path: '/documents',
+    getParentRoute: () => localeDashboardRoute,
   } as any)
 const localeDashboardDistributionsRoute =
   localeDashboardDistributionsRouteImport.update({
-    id: '/($locale)/dashboard/distributions',
-    path: '/dashboard/distributions',
-    getParentRoute: () => rootRouteImport,
+    id: '/distributions',
+    path: '/distributions',
+    getParentRoute: () => localeDashboardRoute,
   } as any)
-const localeDashboardLayoutRoute = localeDashboardLayoutRouteImport.update({
-  id: '/($locale)/dashboard/_layout',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const localeAdminMetricsRoute = localeAdminMetricsRouteImport.update({
-  id: '/($locale)/admin/metrics',
-  path: '/admin/metrics',
-  getParentRoute: () => rootRouteImport,
+  id: '/metrics',
+  path: '/metrics',
+  getParentRoute: () => localeAdminRoute,
 } as any)
 const localeAdminInvestorsRoute = localeAdminInvestorsRouteImport.update({
-  id: '/($locale)/admin/investors',
-  path: '/admin/investors',
-  getParentRoute: () => rootRouteImport,
+  id: '/investors',
+  path: '/investors',
+  getParentRoute: () => localeAdminRoute,
 } as any)
 const localeAdminInvestmentsRoute = localeAdminInvestmentsRouteImport.update({
-  id: '/($locale)/admin/investments',
-  path: '/admin/investments',
-  getParentRoute: () => rootRouteImport,
+  id: '/investments',
+  path: '/investments',
+  getParentRoute: () => localeAdminRoute,
 } as any)
 const localeAdminDocumentsRoute = localeAdminDocumentsRouteImport.update({
-  id: '/($locale)/admin/documents',
-  path: '/admin/documents',
-  getParentRoute: () => rootRouteImport,
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => localeAdminRoute,
 } as any)
 const localeAdminDashboardRoute = localeAdminDashboardRouteImport.update({
-  id: '/($locale)/admin/dashboard',
-  path: '/admin/dashboard',
-  getParentRoute: () => rootRouteImport,
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => localeAdminRoute,
 } as any)
 const localeAdminBudgetRoute = localeAdminBudgetRouteImport.update({
-  id: '/($locale)/admin/budget',
-  path: '/admin/budget',
-  getParentRoute: () => rootRouteImport,
+  id: '/budget',
+  path: '/budget',
+  getParentRoute: () => localeAdminRoute,
 } as any)
 const localeAdminAuditRoute = localeAdminAuditRouteImport.update({
-  id: '/($locale)/admin/audit',
-  path: '/admin/audit',
-  getParentRoute: () => rootRouteImport,
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => localeAdminRoute,
 } as any)
-const localeAdminLayoutRoute = localeAdminLayoutRouteImport.update({
-  id: '/($locale)/admin/_layout',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const localemarketingHowItWorksRoute =
-  localemarketingHowItWorksRouteImport.update({
-    id: '/($locale)/(marketing)/how-it-works',
+const localeMarketingHowItWorksRoute =
+  localeMarketingHowItWorksRouteImport.update({
+    id: '/how-it-works',
     path: '/how-it-works',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => localeMarketingRoute,
   } as any)
-const localemarketingAboutRoute = localemarketingAboutRouteImport.update({
-  id: '/($locale)/(marketing)/about',
+const localeMarketingAboutRoute = localeMarketingAboutRouteImport.update({
+  id: '/about',
   path: '/about',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const localemarketingLayoutRoute = localemarketingLayoutRouteImport.update({
-  id: '/($locale)/(marketing)/_layout',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => localeMarketingRoute,
 } as any)
 const localeProjectsSlugIndexRoute = localeProjectsSlugIndexRouteImport.update({
   id: '/($locale)/projects/$slug/',
@@ -211,14 +211,14 @@ const localeProjectsSlugIndexRoute = localeProjectsSlugIndexRouteImport.update({
 } as any)
 const localeAdminProjectsIndexRoute =
   localeAdminProjectsIndexRouteImport.update({
-    id: '/($locale)/admin/projects/',
-    path: '/admin/projects/',
-    getParentRoute: () => rootRouteImport,
+    id: '/projects/',
+    path: '/projects/',
+    getParentRoute: () => localeAdminRoute,
   } as any)
 const localeAdminProjectsIdRoute = localeAdminProjectsIdRouteImport.update({
-  id: '/($locale)/admin/projects/$id',
-  path: '/admin/projects/$id',
-  getParentRoute: () => rootRouteImport,
+  id: '/projects/$id',
+  path: '/projects/$id',
+  getParentRoute: () => localeAdminRoute,
 } as any)
 const localeAdminInvestorsIdRoute = localeAdminInvestorsIdRouteImport.update({
   id: '/$id',
@@ -239,12 +239,13 @@ const localeProjectsSlugInvestSuccessRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/admin': typeof localeAdminRouteWithChildren
+  '/dashboard': typeof localeDashboardRouteWithChildren
   '/forgot-password': typeof localeForgotPasswordRoute
   '/login': typeof localeLoginRoute
   '/register': typeof localeRegisterRoute
-  '/about': typeof localemarketingAboutRoute
-  '/how-it-works': typeof localemarketingHowItWorksRoute
-  '/admin': typeof localeAdminLayoutRoute
+  '/about': typeof localeMarketingAboutRoute
+  '/how-it-works': typeof localeMarketingHowItWorksRoute
   '/admin/audit': typeof localeAdminAuditRoute
   '/admin/budget': typeof localeAdminBudgetRoute
   '/admin/dashboard': typeof localeAdminDashboardRoute
@@ -252,7 +253,6 @@ export interface FileRoutesByFullPath {
   '/admin/investments': typeof localeAdminInvestmentsRoute
   '/admin/investors': typeof localeAdminInvestorsRouteWithChildren
   '/admin/metrics': typeof localeAdminMetricsRoute
-  '/dashboard': typeof localeDashboardLayoutRoute
   '/dashboard/distributions': typeof localeDashboardDistributionsRoute
   '/dashboard/documents': typeof localeDashboardDocumentsRoute
   '/dashboard/favorites': typeof localeDashboardFavoritesRoute
@@ -265,7 +265,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/statements': typeof localeDashboardStatementsRoute
   '/dashboard/transactions': typeof localeDashboardTransactionsRoute
   '/dashboard/wallet': typeof localeDashboardWalletRoute
-  '/': typeof localemarketingIndexRoute
+  '/': typeof localeMarketingIndexRoute
   '/dashboard/': typeof localeDashboardIndexRoute
   '/projects/': typeof localeProjectsIndexRoute
   '/admin/investors/$id': typeof localeAdminInvestorsIdRoute
@@ -276,12 +276,12 @@ export interface FileRoutesByFullPath {
   '/projects/$slug/invest/': typeof localeProjectsSlugInvestIndexRoute
 }
 export interface FileRoutesByTo {
+  '/admin': typeof localeAdminRouteWithChildren
   '/forgot-password': typeof localeForgotPasswordRoute
   '/login': typeof localeLoginRoute
   '/register': typeof localeRegisterRoute
-  '/about': typeof localemarketingAboutRoute
-  '/how-it-works': typeof localemarketingHowItWorksRoute
-  '/admin': typeof localeAdminLayoutRoute
+  '/about': typeof localeMarketingAboutRoute
+  '/how-it-works': typeof localeMarketingHowItWorksRoute
   '/admin/audit': typeof localeAdminAuditRoute
   '/admin/budget': typeof localeAdminBudgetRoute
   '/admin/dashboard': typeof localeAdminDashboardRoute
@@ -289,7 +289,6 @@ export interface FileRoutesByTo {
   '/admin/investments': typeof localeAdminInvestmentsRoute
   '/admin/investors': typeof localeAdminInvestorsRouteWithChildren
   '/admin/metrics': typeof localeAdminMetricsRoute
-  '/dashboard': typeof localeDashboardIndexRoute
   '/dashboard/distributions': typeof localeDashboardDistributionsRoute
   '/dashboard/documents': typeof localeDashboardDocumentsRoute
   '/dashboard/favorites': typeof localeDashboardFavoritesRoute
@@ -302,7 +301,8 @@ export interface FileRoutesByTo {
   '/dashboard/statements': typeof localeDashboardStatementsRoute
   '/dashboard/transactions': typeof localeDashboardTransactionsRoute
   '/dashboard/wallet': typeof localeDashboardWalletRoute
-  '/': typeof localemarketingIndexRoute
+  '/': typeof localeMarketingIndexRoute
+  '/dashboard': typeof localeDashboardIndexRoute
   '/projects': typeof localeProjectsIndexRoute
   '/admin/investors/$id': typeof localeAdminInvestorsIdRoute
   '/admin/projects/$id': typeof localeAdminProjectsIdRoute
@@ -313,13 +313,14 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/($locale)/_marketing': typeof localeMarketingRouteWithChildren
+  '/($locale)/admin': typeof localeAdminRouteWithChildren
+  '/($locale)/dashboard': typeof localeDashboardRouteWithChildren
   '/($locale)/forgot-password': typeof localeForgotPasswordRoute
   '/($locale)/login': typeof localeLoginRoute
   '/($locale)/register': typeof localeRegisterRoute
-  '/($locale)/(marketing)/_layout': typeof localemarketingLayoutRoute
-  '/($locale)/(marketing)/about': typeof localemarketingAboutRoute
-  '/($locale)/(marketing)/how-it-works': typeof localemarketingHowItWorksRoute
-  '/($locale)/admin/_layout': typeof localeAdminLayoutRoute
+  '/($locale)/_marketing/about': typeof localeMarketingAboutRoute
+  '/($locale)/_marketing/how-it-works': typeof localeMarketingHowItWorksRoute
   '/($locale)/admin/audit': typeof localeAdminAuditRoute
   '/($locale)/admin/budget': typeof localeAdminBudgetRoute
   '/($locale)/admin/dashboard': typeof localeAdminDashboardRoute
@@ -327,7 +328,6 @@ export interface FileRoutesById {
   '/($locale)/admin/investments': typeof localeAdminInvestmentsRoute
   '/($locale)/admin/investors': typeof localeAdminInvestorsRouteWithChildren
   '/($locale)/admin/metrics': typeof localeAdminMetricsRoute
-  '/($locale)/dashboard/_layout': typeof localeDashboardLayoutRoute
   '/($locale)/dashboard/distributions': typeof localeDashboardDistributionsRoute
   '/($locale)/dashboard/documents': typeof localeDashboardDocumentsRoute
   '/($locale)/dashboard/favorites': typeof localeDashboardFavoritesRoute
@@ -340,7 +340,7 @@ export interface FileRoutesById {
   '/($locale)/dashboard/statements': typeof localeDashboardStatementsRoute
   '/($locale)/dashboard/transactions': typeof localeDashboardTransactionsRoute
   '/($locale)/dashboard/wallet': typeof localeDashboardWalletRoute
-  '/($locale)/(marketing)/': typeof localemarketingIndexRoute
+  '/($locale)/_marketing/': typeof localeMarketingIndexRoute
   '/($locale)/dashboard/': typeof localeDashboardIndexRoute
   '/($locale)/projects/': typeof localeProjectsIndexRoute
   '/($locale)/admin/investors/$id': typeof localeAdminInvestorsIdRoute
@@ -353,12 +353,13 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/admin'
+    | '/dashboard'
     | '/forgot-password'
     | '/login'
     | '/register'
     | '/about'
     | '/how-it-works'
-    | '/admin'
     | '/admin/audit'
     | '/admin/budget'
     | '/admin/dashboard'
@@ -366,7 +367,6 @@ export interface FileRouteTypes {
     | '/admin/investments'
     | '/admin/investors'
     | '/admin/metrics'
-    | '/dashboard'
     | '/dashboard/distributions'
     | '/dashboard/documents'
     | '/dashboard/favorites'
@@ -390,12 +390,12 @@ export interface FileRouteTypes {
     | '/projects/$slug/invest/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/admin'
     | '/forgot-password'
     | '/login'
     | '/register'
     | '/about'
     | '/how-it-works'
-    | '/admin'
     | '/admin/audit'
     | '/admin/budget'
     | '/admin/dashboard'
@@ -403,7 +403,6 @@ export interface FileRouteTypes {
     | '/admin/investments'
     | '/admin/investors'
     | '/admin/metrics'
-    | '/dashboard'
     | '/dashboard/distributions'
     | '/dashboard/documents'
     | '/dashboard/favorites'
@@ -417,6 +416,7 @@ export interface FileRouteTypes {
     | '/dashboard/transactions'
     | '/dashboard/wallet'
     | '/'
+    | '/dashboard'
     | '/projects'
     | '/admin/investors/$id'
     | '/admin/projects/$id'
@@ -426,13 +426,14 @@ export interface FileRouteTypes {
     | '/projects/$slug/invest'
   id:
     | '__root__'
+    | '/($locale)/_marketing'
+    | '/($locale)/admin'
+    | '/($locale)/dashboard'
     | '/($locale)/forgot-password'
     | '/($locale)/login'
     | '/($locale)/register'
-    | '/($locale)/(marketing)/_layout'
-    | '/($locale)/(marketing)/about'
-    | '/($locale)/(marketing)/how-it-works'
-    | '/($locale)/admin/_layout'
+    | '/($locale)/_marketing/about'
+    | '/($locale)/_marketing/how-it-works'
     | '/($locale)/admin/audit'
     | '/($locale)/admin/budget'
     | '/($locale)/admin/dashboard'
@@ -440,7 +441,6 @@ export interface FileRouteTypes {
     | '/($locale)/admin/investments'
     | '/($locale)/admin/investors'
     | '/($locale)/admin/metrics'
-    | '/($locale)/dashboard/_layout'
     | '/($locale)/dashboard/distributions'
     | '/($locale)/dashboard/documents'
     | '/($locale)/dashboard/favorites'
@@ -453,7 +453,7 @@ export interface FileRouteTypes {
     | '/($locale)/dashboard/statements'
     | '/($locale)/dashboard/transactions'
     | '/($locale)/dashboard/wallet'
-    | '/($locale)/(marketing)/'
+    | '/($locale)/_marketing/'
     | '/($locale)/dashboard/'
     | '/($locale)/projects/'
     | '/($locale)/admin/investors/$id'
@@ -465,38 +465,13 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  localeMarketingRoute: typeof localeMarketingRouteWithChildren
+  localeAdminRoute: typeof localeAdminRouteWithChildren
+  localeDashboardRoute: typeof localeDashboardRouteWithChildren
   localeForgotPasswordRoute: typeof localeForgotPasswordRoute
   localeLoginRoute: typeof localeLoginRoute
   localeRegisterRoute: typeof localeRegisterRoute
-  localemarketingLayoutRoute: typeof localemarketingLayoutRoute
-  localemarketingAboutRoute: typeof localemarketingAboutRoute
-  localemarketingHowItWorksRoute: typeof localemarketingHowItWorksRoute
-  localeAdminLayoutRoute: typeof localeAdminLayoutRoute
-  localeAdminAuditRoute: typeof localeAdminAuditRoute
-  localeAdminBudgetRoute: typeof localeAdminBudgetRoute
-  localeAdminDashboardRoute: typeof localeAdminDashboardRoute
-  localeAdminDocumentsRoute: typeof localeAdminDocumentsRoute
-  localeAdminInvestmentsRoute: typeof localeAdminInvestmentsRoute
-  localeAdminInvestorsRoute: typeof localeAdminInvestorsRouteWithChildren
-  localeAdminMetricsRoute: typeof localeAdminMetricsRoute
-  localeDashboardLayoutRoute: typeof localeDashboardLayoutRoute
-  localeDashboardDistributionsRoute: typeof localeDashboardDistributionsRoute
-  localeDashboardDocumentsRoute: typeof localeDashboardDocumentsRoute
-  localeDashboardFavoritesRoute: typeof localeDashboardFavoritesRoute
-  localeDashboardInvestmentsRoute: typeof localeDashboardInvestmentsRoute
-  localeDashboardKycRoute: typeof localeDashboardKycRoute
-  localeDashboardNotificationsRoute: typeof localeDashboardNotificationsRoute
-  localeDashboardPortfolioRoute: typeof localeDashboardPortfolioRoute
-  localeDashboardProgressRoute: typeof localeDashboardProgressRoute
-  localeDashboardSettingsRoute: typeof localeDashboardSettingsRoute
-  localeDashboardStatementsRoute: typeof localeDashboardStatementsRoute
-  localeDashboardTransactionsRoute: typeof localeDashboardTransactionsRoute
-  localeDashboardWalletRoute: typeof localeDashboardWalletRoute
-  localemarketingIndexRoute: typeof localemarketingIndexRoute
-  localeDashboardIndexRoute: typeof localeDashboardIndexRoute
   localeProjectsIndexRoute: typeof localeProjectsIndexRoute
-  localeAdminProjectsIdRoute: typeof localeAdminProjectsIdRoute
-  localeAdminProjectsIndexRoute: typeof localeAdminProjectsIndexRoute
   localeProjectsSlugIndexRoute: typeof localeProjectsSlugIndexRoute
   localeProjectsSlugInvestSuccessRoute: typeof localeProjectsSlugInvestSuccessRoute
   localeProjectsSlugInvestIndexRoute: typeof localeProjectsSlugInvestIndexRoute
@@ -525,6 +500,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof localeForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/($locale)/dashboard': {
+      id: '/($locale)/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof localeDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/($locale)/admin': {
+      id: '/($locale)/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof localeAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/($locale)/_marketing': {
+      id: '/($locale)/_marketing'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof localeMarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/($locale)/projects/': {
       id: '/($locale)/projects/'
       path: '/projects'
@@ -534,185 +530,164 @@ declare module '@tanstack/react-router' {
     }
     '/($locale)/dashboard/': {
       id: '/($locale)/dashboard/'
-      path: '/dashboard'
+      path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof localeDashboardIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
-    '/($locale)/(marketing)/': {
-      id: '/($locale)/(marketing)/'
+    '/($locale)/_marketing/': {
+      id: '/($locale)/_marketing/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof localemarketingIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof localeMarketingIndexRouteImport
+      parentRoute: typeof localeMarketingRoute
     }
     '/($locale)/dashboard/wallet': {
       id: '/($locale)/dashboard/wallet'
-      path: '/dashboard/wallet'
+      path: '/wallet'
       fullPath: '/dashboard/wallet'
       preLoaderRoute: typeof localeDashboardWalletRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/transactions': {
       id: '/($locale)/dashboard/transactions'
-      path: '/dashboard/transactions'
+      path: '/transactions'
       fullPath: '/dashboard/transactions'
       preLoaderRoute: typeof localeDashboardTransactionsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/statements': {
       id: '/($locale)/dashboard/statements'
-      path: '/dashboard/statements'
+      path: '/statements'
       fullPath: '/dashboard/statements'
       preLoaderRoute: typeof localeDashboardStatementsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/settings': {
       id: '/($locale)/dashboard/settings'
-      path: '/dashboard/settings'
+      path: '/settings'
       fullPath: '/dashboard/settings'
       preLoaderRoute: typeof localeDashboardSettingsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/progress': {
       id: '/($locale)/dashboard/progress'
-      path: '/dashboard/progress'
+      path: '/progress'
       fullPath: '/dashboard/progress'
       preLoaderRoute: typeof localeDashboardProgressRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/portfolio': {
       id: '/($locale)/dashboard/portfolio'
-      path: '/dashboard/portfolio'
+      path: '/portfolio'
       fullPath: '/dashboard/portfolio'
       preLoaderRoute: typeof localeDashboardPortfolioRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/notifications': {
       id: '/($locale)/dashboard/notifications'
-      path: '/dashboard/notifications'
+      path: '/notifications'
       fullPath: '/dashboard/notifications'
       preLoaderRoute: typeof localeDashboardNotificationsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/kyc': {
       id: '/($locale)/dashboard/kyc'
-      path: '/dashboard/kyc'
+      path: '/kyc'
       fullPath: '/dashboard/kyc'
       preLoaderRoute: typeof localeDashboardKycRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/investments': {
       id: '/($locale)/dashboard/investments'
-      path: '/dashboard/investments'
+      path: '/investments'
       fullPath: '/dashboard/investments'
       preLoaderRoute: typeof localeDashboardInvestmentsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/favorites': {
       id: '/($locale)/dashboard/favorites'
-      path: '/dashboard/favorites'
+      path: '/favorites'
       fullPath: '/dashboard/favorites'
       preLoaderRoute: typeof localeDashboardFavoritesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/documents': {
       id: '/($locale)/dashboard/documents'
-      path: '/dashboard/documents'
+      path: '/documents'
       fullPath: '/dashboard/documents'
       preLoaderRoute: typeof localeDashboardDocumentsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/dashboard/distributions': {
       id: '/($locale)/dashboard/distributions'
-      path: '/dashboard/distributions'
+      path: '/distributions'
       fullPath: '/dashboard/distributions'
       preLoaderRoute: typeof localeDashboardDistributionsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/($locale)/dashboard/_layout': {
-      id: '/($locale)/dashboard/_layout'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof localeDashboardLayoutRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeDashboardRoute
     }
     '/($locale)/admin/metrics': {
       id: '/($locale)/admin/metrics'
-      path: '/admin/metrics'
+      path: '/metrics'
       fullPath: '/admin/metrics'
       preLoaderRoute: typeof localeAdminMetricsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeAdminRoute
     }
     '/($locale)/admin/investors': {
       id: '/($locale)/admin/investors'
-      path: '/admin/investors'
+      path: '/investors'
       fullPath: '/admin/investors'
       preLoaderRoute: typeof localeAdminInvestorsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeAdminRoute
     }
     '/($locale)/admin/investments': {
       id: '/($locale)/admin/investments'
-      path: '/admin/investments'
+      path: '/investments'
       fullPath: '/admin/investments'
       preLoaderRoute: typeof localeAdminInvestmentsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeAdminRoute
     }
     '/($locale)/admin/documents': {
       id: '/($locale)/admin/documents'
-      path: '/admin/documents'
+      path: '/documents'
       fullPath: '/admin/documents'
       preLoaderRoute: typeof localeAdminDocumentsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeAdminRoute
     }
     '/($locale)/admin/dashboard': {
       id: '/($locale)/admin/dashboard'
-      path: '/admin/dashboard'
+      path: '/dashboard'
       fullPath: '/admin/dashboard'
       preLoaderRoute: typeof localeAdminDashboardRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeAdminRoute
     }
     '/($locale)/admin/budget': {
       id: '/($locale)/admin/budget'
-      path: '/admin/budget'
+      path: '/budget'
       fullPath: '/admin/budget'
       preLoaderRoute: typeof localeAdminBudgetRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeAdminRoute
     }
     '/($locale)/admin/audit': {
       id: '/($locale)/admin/audit'
-      path: '/admin/audit'
+      path: '/audit'
       fullPath: '/admin/audit'
       preLoaderRoute: typeof localeAdminAuditRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeAdminRoute
     }
-    '/($locale)/admin/_layout': {
-      id: '/($locale)/admin/_layout'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof localeAdminLayoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/($locale)/(marketing)/how-it-works': {
-      id: '/($locale)/(marketing)/how-it-works'
+    '/($locale)/_marketing/how-it-works': {
+      id: '/($locale)/_marketing/how-it-works'
       path: '/how-it-works'
       fullPath: '/how-it-works'
-      preLoaderRoute: typeof localemarketingHowItWorksRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof localeMarketingHowItWorksRouteImport
+      parentRoute: typeof localeMarketingRoute
     }
-    '/($locale)/(marketing)/about': {
-      id: '/($locale)/(marketing)/about'
+    '/($locale)/_marketing/about': {
+      id: '/($locale)/_marketing/about'
       path: '/about'
       fullPath: '/about'
-      preLoaderRoute: typeof localemarketingAboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/($locale)/(marketing)/_layout': {
-      id: '/($locale)/(marketing)/_layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof localemarketingLayoutRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof localeMarketingAboutRouteImport
+      parentRoute: typeof localeMarketingRoute
     }
     '/($locale)/projects/$slug/': {
       id: '/($locale)/projects/$slug/'
@@ -723,17 +698,17 @@ declare module '@tanstack/react-router' {
     }
     '/($locale)/admin/projects/': {
       id: '/($locale)/admin/projects/'
-      path: '/admin/projects'
+      path: '/projects'
       fullPath: '/admin/projects/'
       preLoaderRoute: typeof localeAdminProjectsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeAdminRoute
     }
     '/($locale)/admin/projects/$id': {
       id: '/($locale)/admin/projects/$id'
-      path: '/admin/projects/$id'
+      path: '/projects/$id'
       fullPath: '/admin/projects/$id'
       preLoaderRoute: typeof localeAdminProjectsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof localeAdminRoute
     }
     '/($locale)/admin/investors/$id': {
       id: '/($locale)/admin/investors/$id'
@@ -759,6 +734,22 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface localeMarketingRouteChildren {
+  localeMarketingAboutRoute: typeof localeMarketingAboutRoute
+  localeMarketingHowItWorksRoute: typeof localeMarketingHowItWorksRoute
+  localeMarketingIndexRoute: typeof localeMarketingIndexRoute
+}
+
+const localeMarketingRouteChildren: localeMarketingRouteChildren = {
+  localeMarketingAboutRoute: localeMarketingAboutRoute,
+  localeMarketingHowItWorksRoute: localeMarketingHowItWorksRoute,
+  localeMarketingIndexRoute: localeMarketingIndexRoute,
+}
+
+const localeMarketingRouteWithChildren = localeMarketingRoute._addFileChildren(
+  localeMarketingRouteChildren,
+)
+
 interface localeAdminInvestorsRouteChildren {
   localeAdminInvestorsIdRoute: typeof localeAdminInvestorsIdRoute
 }
@@ -770,14 +761,19 @@ const localeAdminInvestorsRouteChildren: localeAdminInvestorsRouteChildren = {
 const localeAdminInvestorsRouteWithChildren =
   localeAdminInvestorsRoute._addFileChildren(localeAdminInvestorsRouteChildren)
 
-const rootRouteChildren: RootRouteChildren = {
-  localeForgotPasswordRoute: localeForgotPasswordRoute,
-  localeLoginRoute: localeLoginRoute,
-  localeRegisterRoute: localeRegisterRoute,
-  localemarketingLayoutRoute: localemarketingLayoutRoute,
-  localemarketingAboutRoute: localemarketingAboutRoute,
-  localemarketingHowItWorksRoute: localemarketingHowItWorksRoute,
-  localeAdminLayoutRoute: localeAdminLayoutRoute,
+interface localeAdminRouteChildren {
+  localeAdminAuditRoute: typeof localeAdminAuditRoute
+  localeAdminBudgetRoute: typeof localeAdminBudgetRoute
+  localeAdminDashboardRoute: typeof localeAdminDashboardRoute
+  localeAdminDocumentsRoute: typeof localeAdminDocumentsRoute
+  localeAdminInvestmentsRoute: typeof localeAdminInvestmentsRoute
+  localeAdminInvestorsRoute: typeof localeAdminInvestorsRouteWithChildren
+  localeAdminMetricsRoute: typeof localeAdminMetricsRoute
+  localeAdminProjectsIdRoute: typeof localeAdminProjectsIdRoute
+  localeAdminProjectsIndexRoute: typeof localeAdminProjectsIndexRoute
+}
+
+const localeAdminRouteChildren: localeAdminRouteChildren = {
   localeAdminAuditRoute: localeAdminAuditRoute,
   localeAdminBudgetRoute: localeAdminBudgetRoute,
   localeAdminDashboardRoute: localeAdminDashboardRoute,
@@ -785,7 +781,31 @@ const rootRouteChildren: RootRouteChildren = {
   localeAdminInvestmentsRoute: localeAdminInvestmentsRoute,
   localeAdminInvestorsRoute: localeAdminInvestorsRouteWithChildren,
   localeAdminMetricsRoute: localeAdminMetricsRoute,
-  localeDashboardLayoutRoute: localeDashboardLayoutRoute,
+  localeAdminProjectsIdRoute: localeAdminProjectsIdRoute,
+  localeAdminProjectsIndexRoute: localeAdminProjectsIndexRoute,
+}
+
+const localeAdminRouteWithChildren = localeAdminRoute._addFileChildren(
+  localeAdminRouteChildren,
+)
+
+interface localeDashboardRouteChildren {
+  localeDashboardDistributionsRoute: typeof localeDashboardDistributionsRoute
+  localeDashboardDocumentsRoute: typeof localeDashboardDocumentsRoute
+  localeDashboardFavoritesRoute: typeof localeDashboardFavoritesRoute
+  localeDashboardInvestmentsRoute: typeof localeDashboardInvestmentsRoute
+  localeDashboardKycRoute: typeof localeDashboardKycRoute
+  localeDashboardNotificationsRoute: typeof localeDashboardNotificationsRoute
+  localeDashboardPortfolioRoute: typeof localeDashboardPortfolioRoute
+  localeDashboardProgressRoute: typeof localeDashboardProgressRoute
+  localeDashboardSettingsRoute: typeof localeDashboardSettingsRoute
+  localeDashboardStatementsRoute: typeof localeDashboardStatementsRoute
+  localeDashboardTransactionsRoute: typeof localeDashboardTransactionsRoute
+  localeDashboardWalletRoute: typeof localeDashboardWalletRoute
+  localeDashboardIndexRoute: typeof localeDashboardIndexRoute
+}
+
+const localeDashboardRouteChildren: localeDashboardRouteChildren = {
   localeDashboardDistributionsRoute: localeDashboardDistributionsRoute,
   localeDashboardDocumentsRoute: localeDashboardDocumentsRoute,
   localeDashboardFavoritesRoute: localeDashboardFavoritesRoute,
@@ -798,11 +818,21 @@ const rootRouteChildren: RootRouteChildren = {
   localeDashboardStatementsRoute: localeDashboardStatementsRoute,
   localeDashboardTransactionsRoute: localeDashboardTransactionsRoute,
   localeDashboardWalletRoute: localeDashboardWalletRoute,
-  localemarketingIndexRoute: localemarketingIndexRoute,
   localeDashboardIndexRoute: localeDashboardIndexRoute,
+}
+
+const localeDashboardRouteWithChildren = localeDashboardRoute._addFileChildren(
+  localeDashboardRouteChildren,
+)
+
+const rootRouteChildren: RootRouteChildren = {
+  localeMarketingRoute: localeMarketingRouteWithChildren,
+  localeAdminRoute: localeAdminRouteWithChildren,
+  localeDashboardRoute: localeDashboardRouteWithChildren,
+  localeForgotPasswordRoute: localeForgotPasswordRoute,
+  localeLoginRoute: localeLoginRoute,
+  localeRegisterRoute: localeRegisterRoute,
   localeProjectsIndexRoute: localeProjectsIndexRoute,
-  localeAdminProjectsIdRoute: localeAdminProjectsIdRoute,
-  localeAdminProjectsIndexRoute: localeAdminProjectsIndexRoute,
   localeProjectsSlugIndexRoute: localeProjectsSlugIndexRoute,
   localeProjectsSlugInvestSuccessRoute: localeProjectsSlugInvestSuccessRoute,
   localeProjectsSlugInvestIndexRoute: localeProjectsSlugInvestIndexRoute,

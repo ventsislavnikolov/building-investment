@@ -25,7 +25,7 @@ const VALUES = [
 	},
 ];
 
-export const Route = createFileRoute("/($locale)/(marketing)/about")({
+export const Route = createFileRoute("/($locale)/_marketing/about")({
 	beforeLoad: ({ params }) => {
 		const locale = getLocaleFromParams((params as { locale?: string }).locale);
 		return { locale };

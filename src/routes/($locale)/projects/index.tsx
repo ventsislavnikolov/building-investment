@@ -15,11 +15,13 @@ export const Route = createFileRoute("/($locale)/projects/")({
 	loader: async ({ context }) => {
 		const { getPublishedProjects } = await import("~/server/projects");
 		const projects = await getPublishedProjects({
-			locale: context.locale,
-			search: "",
-			strategy: "all",
-			sort: "featured",
-			page: 1,
+			data: {
+				locale: context.locale,
+				search: "",
+				strategy: "all",
+				sort: "featured",
+				page: 1,
+			},
 		});
 		return { projects };
 	},

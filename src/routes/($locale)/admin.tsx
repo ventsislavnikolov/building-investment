@@ -84,7 +84,7 @@ const ADMIN_BOTTOM_NAV = (locale: string) => [
 	},
 ];
 
-export const Route = createFileRoute("/($locale)/admin/_layout")({
+export const Route = createFileRoute("/($locale)/admin")({
 	beforeLoad: async ({ params }) => {
 		const locale = getLocaleFromParams((params as { locale?: string }).locale);
 

@@ -31,8 +31,7 @@ export const Route = createFileRoute("/($locale)/projects/$slug/")({
 	loader: async ({ context, params }) => {
 		const { getProjectBySlug } = await import("~/server/projects");
 		const project = await getProjectBySlug({
-			slug: params.slug,
-			locale: context.locale,
+			data: { slug: params.slug, locale: context.locale },
 		});
 		if (!project) throw notFound();
 		return { project };

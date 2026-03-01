@@ -3,7 +3,7 @@ import { EmailCta } from "~/components/marketing/email-cta";
 import { HowItWorksSteps } from "~/components/marketing/how-it-works-steps";
 import { getLocaleFromParams } from "~/lib/routing";
 
-export const Route = createFileRoute("/($locale)/(marketing)/how-it-works")({
+export const Route = createFileRoute("/($locale)/_marketing/how-it-works")({
 	beforeLoad: ({ params }) => {
 		const locale = getLocaleFromParams((params as { locale?: string }).locale);
 		return { locale };

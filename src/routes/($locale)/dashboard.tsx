@@ -81,7 +81,7 @@ const DASHBOARD_BOTTOM_NAV = (locale: string) => [
 	},
 ];
 
-export const Route = createFileRoute("/($locale)/dashboard/_layout")({
+export const Route = createFileRoute("/($locale)/dashboard")({
 	beforeLoad: async ({ params }) => {
 		const locale = getLocaleFromParams((params as { locale?: string }).locale);
 
