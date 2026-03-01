@@ -18,3 +18,5 @@ playwright-report
 test-results
 .worktrees
 .vercel
+.playwright-mcp
+*.png
