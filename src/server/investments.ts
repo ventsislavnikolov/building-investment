@@ -60,8 +60,8 @@ export const createInvestmentCheckout = createServerFn({ method: "POST" })
 				userId: authedUser.id,
 				amount: data.amount.toString(),
 			},
-			success_url: `${env.NEXT_PUBLIC_APP_URL}/projects/${project.slug}/invest/success?session_id={CHECKOUT_SESSION_ID}`,
-			cancel_url: `${env.NEXT_PUBLIC_APP_URL}/projects/${project.slug}/invest`,
+			success_url: `${env.APP_URL}/projects/${project.slug}/invest/success?session_id={CHECKOUT_SESSION_ID}`,
+			cancel_url: `${env.APP_URL}/projects/${project.slug}/invest`,
 		});
 
 		if (!session.url) throw new Error("Stripe did not return a checkout URL");
@@ -91,7 +91,7 @@ export const handleStripeWebhook = createServerFn({ method: "POST" })
 		}
 
 		if (event.type === "checkout.session.completed") {
-			const session = event.data.object as Stripe.CheckoutSession;
+			const session = event.data.object as Stripe.Checkout.Session;
 			const { projectId, userId, amount } = session.metadata ?? {};
 
 			const supabase = createSupabaseAdminClient();

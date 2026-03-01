@@ -11,7 +11,6 @@ const envSchema = z.object({
 	SUMSUB_APP_TOKEN: z.string().optional(),
 	SUMSUB_SECRET_KEY: z.string().optional(),
 	RESEND_API_KEY: z.string().optional(),
-	SENTRY_DSN: z.string().optional(),
 });
 
 export type AppEnv = z.infer<typeof envSchema>;

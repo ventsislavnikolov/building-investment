@@ -15,7 +15,7 @@ const getAdminSessionFn = createServerFn({ method: "GET" }).handler(
 
 		const { data: profile } = await supabase
 			.from("profiles")
-			.select("full_name, avatar_url, role")
+			.select("id, first_name, last_name, avatar_url, role")
 			.eq("id", user.id)
 			.maybeSingle();
 
@@ -109,7 +109,12 @@ export const Route = createFileRoute("/($locale)/admin/_layout")({
 			<AppShell
 				navItems={ADMIN_NAV(locale)}
 				bottomNavItems={ADMIN_BOTTOM_NAV(locale)}
-				userName={profile?.full_name ?? user.email}
+				userName={
+					profile
+						? `${profile.first_name ?? ""} ${profile.last_name ?? ""}`.trim() ||
+							user.email
+						: user.email
+				}
 				userEmail={user.email}
 				userAvatar={profile?.avatar_url}
 				onLogout={handleLogout}

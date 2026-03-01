@@ -9,7 +9,7 @@ const getAdminInvestors = createServerFn({ method: "GET" }).handler(
 		const { data } = await supabase
 			.from("profiles")
 			.select(
-				"id, full_name, email, kyc_status, total_invested, investments_count, created_at",
+				"id, first_name, last_name, email, kyc_status, total_invested, investments_count, created_at",
 			)
 			.eq("role", "investor")
 			.order("created_at", { ascending: false });
@@ -84,7 +84,8 @@ export const Route = createFileRoute("/($locale)/admin/investors")({
 												to={localePath(locale, `/admin/investors/${inv.id}`)}
 												className="font-medium text-text hover:text-primary"
 											>
-												{inv.full_name ?? "—"}
+												{`${inv.first_name ?? ""} ${inv.last_name ?? ""}`.trim() ||
+													"—"}
 											</Link>
 										</td>
 										<td className="px-5 py-3 text-muted">{inv.email}</td>

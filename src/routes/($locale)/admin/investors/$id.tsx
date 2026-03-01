@@ -11,7 +11,7 @@ const getAdminInvestor = createServerFn({ method: "GET" })
 		const { data: profile } = await supabase
 			.from("profiles")
 			.select(
-				"id, full_name, email, kyc_status, role, created_at, phone, nationality",
+				"id, first_name, last_name, email, kyc_status, role, created_at, phone, nationality",
 			)
 			.eq("id", data.id)
 			.single();
@@ -73,7 +73,8 @@ function AdminInvestorDetailPage() {
 				</Link>
 				<div className="flex-1">
 					<h1 className="text-2xl font-bold text-[#151515]">
-						{profile.full_name ?? "Unnamed investor"}
+						{`${profile.first_name ?? ""} ${profile.last_name ?? ""}`.trim() ||
+							"Unnamed investor"}
 					</h1>
 					<p className="text-sm text-[#ACB3BA]">{profile.email}</p>
 				</div>

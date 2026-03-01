@@ -12,7 +12,7 @@ const getProfileData = createServerFn({ method: "GET" }).handler(async () => {
 
 	const { data: profile } = await supabase
 		.from("profiles")
-		.select("full_name, phone, avatar_url")
+		.select("first_name, last_name, phone, avatar_url")
 		.eq("id", user.id)
 		.maybeSingle();
 
@@ -77,7 +77,7 @@ export const Route = createFileRoute("/($locale)/dashboard/settings")({
 							<input
 								id={`${uid}-name`}
 								type="text"
-								defaultValue={profile?.full_name ?? ""}
+								defaultValue={`${profile?.first_name ?? ""} ${profile?.last_name ?? ""}`.trim()}
 								className="w-full px-4 py-3 rounded-xl border border-border bg-white text-text focus:outline-none focus:ring-2 focus:ring-primary/30 text-sm"
 							/>
 						</div>

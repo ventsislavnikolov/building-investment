@@ -84,13 +84,15 @@ export async function handleSumsubWebhook(
 		// Send KYC approved email
 		const { data: profile } = await supabase
 			.from("profiles")
-			.select("full_name, email")
+			.select("first_name, last_name, email")
 			.eq("sumsub_applicant_id", event.data.applicantId)
 			.maybeSingle();
 		if (profile?.email) {
 			sendKycApprovedEmail({
 				to: profile.email,
-				name: profile.full_name ?? "Investor",
+				name:
+					`${profile.first_name ?? ""} ${profile.last_name ?? ""}`.trim() ||
+					"Investor",
 			}).catch(() => null);
 		}
 	}

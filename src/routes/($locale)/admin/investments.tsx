@@ -9,7 +9,7 @@ const getAllInvestments = createServerFn({ method: "GET" }).handler(
 			.from("investments")
 			.select(
 				`id, amount, status, paid_at,
-       investor:profiles(full_name, email),
+       investor:profiles(first_name, last_name, email),
        project:projects(title_en, slug)`,
 			)
 			.order("paid_at", { ascending: false });
@@ -72,7 +72,8 @@ export const Route = createFileRoute("/($locale)/admin/investments")({
 							<tbody className="divide-y divide-border">
 								{investments.map((inv) => {
 									const investor = inv.investor as {
-										full_name?: string;
+										first_name?: string | null;
+										last_name?: string | null;
 										email: string;
 									} | null;
 									const project = inv.project as {
@@ -85,7 +86,8 @@ export const Route = createFileRoute("/($locale)/admin/investments")({
 										>
 											<td className="px-5 py-3">
 												<p className="font-medium text-text">
-													{investor?.full_name ?? "—"}
+													{`${investor?.first_name ?? ""} ${investor?.last_name ?? ""}`.trim() ||
+														"—"}
 												</p>
 												<p className="text-xs text-muted">{investor?.email}</p>
 											</td>

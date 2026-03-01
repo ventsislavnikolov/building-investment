@@ -28,7 +28,11 @@ export const Route = createFileRoute("/($locale)/dashboard/")({
 		const { locale, user, profile } = Route.useRouteContext();
 		const { summary } = Route.useLoaderData();
 
-		const name = profile?.full_name ?? user?.email ?? "Investor";
+		const name = profile
+			? `${profile.first_name ?? ""} ${profile.last_name ?? ""}`.trim() ||
+				user?.email ||
+				"Investor"
+			: (user?.email ?? "Investor");
 		const firstName = name.split(" ")[0];
 
 		const kpis = [

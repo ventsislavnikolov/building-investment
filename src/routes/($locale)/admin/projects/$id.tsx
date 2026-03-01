@@ -20,7 +20,9 @@ const getAdminProject = createServerFn({ method: "GET" })
 
 		const { data: investments } = await supabase
 			.from("investments")
-			.select("id, amount, status, created_at, profiles(full_name, email)")
+			.select(
+				"id, amount, status, created_at, profiles(first_name, last_name, email)",
+			)
 			.eq("project_id", data.id)
 			.order("created_at", { ascending: false });
 
@@ -147,14 +149,16 @@ function AdminProjectDetailPage() {
 						<tbody className="divide-y divide-[#EEF2F6]">
 							{investments.map((inv) => {
 								const profile = inv.profiles as {
-									full_name: string;
+									first_name: string | null;
+									last_name: string | null;
 									email: string;
 								} | null;
 								return (
 									<tr key={inv.id} className="hover:bg-[#EEF2F6]/40">
 										<td className="px-4 py-3">
 											<p className="font-medium text-[#151515]">
-												{profile?.full_name ?? "—"}
+												{`${profile?.first_name ?? ""} ${profile?.last_name ?? ""}`.trim() ||
+													"—"}
 											</p>
 											<p className="text-xs text-[#ACB3BA]">
 												{profile?.email ?? ""}
