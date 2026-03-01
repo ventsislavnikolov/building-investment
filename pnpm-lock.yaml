@@ -38,6 +38,9 @@ importers:
       '@react-email/components':
         specifier: ^1.0.8
         version: 1.0.8(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@sentry/react':
+        specifier: ^10.40.0
+        version: 10.40.0(react@19.2.4)
       '@stripe/react-stripe-js':
         specifier: ^5.6.0
         version: 5.6.0(@stripe/stripe-js@8.8.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1419,6 +1422,36 @@ packages:
 
   '@selderee/plugin-htmlparser2@0.11.0':
     resolution: {integrity: sha1-1bXimnum05WKGXLHvhb0ssGIxRc=}
+
+  '@sentry-internal/browser-utils@10.40.0':
+    resolution: {integrity: sha1-MTlJuNUP15PXmQst4l4/WULDCJs=}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/feedback@10.40.0':
+    resolution: {integrity: sha1-m7JC7jJvblpEJezC0MMGB0Lt2ZM=}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/replay-canvas@10.40.0':
+    resolution: {integrity: sha1-32QdRP/6cLyOP6Backz1+j5H7tM=}
+    engines: {node: '>=18'}
+
+  '@sentry-internal/replay@10.40.0':
+    resolution: {integrity: sha1-nojFqON9nR5hK+p2A9HJzYOdJYs=}
+    engines: {node: '>=18'}
+
+  '@sentry/browser@10.40.0':
+    resolution: {integrity: sha1-rvyP737q233/Q/ajaOBkIfA7Avs=}
+    engines: {node: '>=18'}
+
+  '@sentry/core@10.40.0':
+    resolution: {integrity: sha1-K/uFQQ38A/n/gGL3Y95S+RUWJIM=}
+    engines: {node: '>=18'}
+
+  '@sentry/react@10.40.0':
+    resolution: {integrity: sha1-DXe/E1pnWzJDLMPhV14A6se++qo=}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: ^16.14.0 || 17.x || 18.x || 19.x
 
   '@solid-primitives/event-listener@2.4.5':
     resolution: {integrity: sha1-YRK27jv75eoseKczFRn3uLLoN+c=}
@@ -4601,6 +4634,40 @@ snapshots:
     dependencies:
       domhandler: 5.0.3
       selderee: 0.11.0
+
+  '@sentry-internal/browser-utils@10.40.0':
+    dependencies:
+      '@sentry/core': 10.40.0
+
+  '@sentry-internal/feedback@10.40.0':
+    dependencies:
+      '@sentry/core': 10.40.0
+
+  '@sentry-internal/replay-canvas@10.40.0':
+    dependencies:
+      '@sentry-internal/replay': 10.40.0
+      '@sentry/core': 10.40.0
+
+  '@sentry-internal/replay@10.40.0':
+    dependencies:
+      '@sentry-internal/browser-utils': 10.40.0
+      '@sentry/core': 10.40.0
+
+  '@sentry/browser@10.40.0':
+    dependencies:
+      '@sentry-internal/browser-utils': 10.40.0
+      '@sentry-internal/feedback': 10.40.0
+      '@sentry-internal/replay': 10.40.0
+      '@sentry-internal/replay-canvas': 10.40.0
+      '@sentry/core': 10.40.0
+
+  '@sentry/core@10.40.0': {}
+
+  '@sentry/react@10.40.0(react@19.2.4)':
+    dependencies:
+      '@sentry/browser': 10.40.0
+      '@sentry/core': 10.40.0
+      react: 19.2.4
 
   '@solid-primitives/event-listener@2.4.5(solid-js@1.9.11)':
     dependencies:

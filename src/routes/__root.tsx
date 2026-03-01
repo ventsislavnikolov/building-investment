@@ -1,8 +1,23 @@
-import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import {
+	createRootRoute,
+	HeadContent,
+	Outlet,
+	Scripts,
+} from "@tanstack/react-router";
+import { useEffect } from "react";
+import { ErrorBoundary } from "~/components/error-boundary";
+import { initSentry } from "~/lib/monitoring/sentry";
 
 import appCss from "../styles.css?url";
 
 export const Route = createRootRoute({
+	component: function Root() {
+		return (
+			<ErrorBoundary>
+				<Outlet />
+			</ErrorBoundary>
+		);
+	},
 	head: () => ({
 		meta: [
 			{ charSet: "utf-8" },
@@ -27,6 +42,10 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	useEffect(() => {
+		initSentry(import.meta.env.VITE_SENTRY_DSN as string | undefined);
+	}, []);
+
 	return (
 		<html lang="en">
 			<head>
