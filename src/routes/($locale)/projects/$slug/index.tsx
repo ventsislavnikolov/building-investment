@@ -37,6 +37,34 @@ export const Route = createFileRoute("/($locale)/projects/$slug/")({
 		if (!project) throw notFound();
 		return { project };
 	},
+	head: ({ loaderData }) => {
+		const p = loaderData?.project as
+			| {
+					title: string;
+					city?: string;
+					projected_irr_min?: number;
+					projected_irr_max?: number;
+					cover_images?: string[];
+			  }
+			| undefined;
+		if (!p) return {};
+		const title = `${p.title} — Building Investment`;
+		const description = p.projected_irr_min
+			? `Invest in ${p.title} in ${p.city ?? "Bulgaria"}. Target IRR ${p.projected_irr_min}–${p.projected_irr_max}%. Available on Building Investment.`
+			: `Real estate investment opportunity: ${p.title}. Available on Building Investment.`;
+		return {
+			meta: [
+				{ title },
+				{ name: "description", content: description },
+				{ property: "og:title", content: title },
+				{ property: "og:description", content: description },
+				{ property: "og:type", content: "article" },
+				...(p.cover_images?.[0]
+					? [{ property: "og:image", content: p.cover_images[0] }]
+					: []),
+			],
+		};
+	},
 	notFoundComponent: () => (
 		<div className="flex min-h-screen items-center justify-center">
 			<p className="text-muted">Project not found.</p>
