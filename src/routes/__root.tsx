@@ -22,7 +22,26 @@ export const Route = createRootRoute({
 		meta: [
 			{ charSet: "utf-8" },
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
-			{ title: "Building Investment Platform" },
+			{ title: "Building Investment — Real Estate in Bulgaria" },
+			{
+				name: "description",
+				content:
+					"Invest in curated Bulgarian real estate projects. Minimum €500. Target IRR 8–18%. Transparent, regulated, digital.",
+			},
+			{ name: "theme-color", content: "#1B59E8" },
+			{ property: "og:site_name", content: "Building Investment" },
+			{
+				property: "og:title",
+				content: "Building Investment — Real Estate in Bulgaria",
+			},
+			{
+				property: "og:description",
+				content:
+					"Invest in curated Bulgarian real estate projects starting from €500.",
+			},
+			{ property: "og:type", content: "website" },
+			{ property: "og:locale", content: "en_US" },
+			{ name: "twitter:card", content: "summary_large_image" },
 		],
 		links: [
 			{ rel: "preconnect", href: "https://fonts.googleapis.com" },
