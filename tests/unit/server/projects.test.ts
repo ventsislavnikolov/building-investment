@@ -34,7 +34,7 @@ vi.mock("~/lib/supabase/server", () => ({
 
 vi.mock("@tanstack/react-start", () => ({
 	createServerFn: () => ({
-		validator: (schema: { parse: (v: unknown) => unknown }) => ({
+		inputValidator: (schema: { parse: (v: unknown) => unknown }) => ({
 			handler: (fn: (ctx: { data: unknown }) => unknown) =>
 				(params: unknown) =>
 					fn({ data: schema.parse(params) }),

@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { createSupabaseAdminClient } from "~/lib/supabase/admin";
 
 const getAdminInvestor = createServerFn({ method: "GET" })
-	.validator((d: { id: string }) => d)
+	.inputValidator((d: { id: string }) => d)
 	.handler(async ({ data }) => {
 		const supabase = createSupabaseAdminClient();
 

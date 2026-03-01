@@ -14,7 +14,7 @@ const checkoutSchema = z.object({
 });
 
 export const createInvestmentCheckout = createServerFn({ method: "POST" })
-	.validator(checkoutSchema)
+	.inputValidator(checkoutSchema)
 	.handler(async ({ data }) => {
 		const supabase = createSupabaseServerClient();
 		const {
@@ -74,7 +74,7 @@ const webhookSchema = z.object({
 });
 
 export const handleStripeWebhook = createServerFn({ method: "POST" })
-	.validator(webhookSchema)
+	.inputValidator(webhookSchema)
 	.handler(async ({ data }) => {
 		const env = getRuntimeEnv();
 		const stripe = new Stripe(env.STRIPE_SECRET_KEY);

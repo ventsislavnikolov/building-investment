@@ -21,11 +21,11 @@ const registerSchema = z.object({
 });
 
 export const loginAction = createServerFn({ method: "POST" })
-	.validator(loginSchema)
+	.inputValidator(loginSchema)
 	.handler(({ data }) => handleLogin(data));
 
 export const registerAction = createServerFn({ method: "POST" })
-	.validator(registerSchema)
+	.inputValidator(registerSchema)
 	.handler(({ data }) => handleRegister(data));
 
 export const logoutAction = createServerFn({ method: "POST" }).handler(() =>

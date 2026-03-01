@@ -40,7 +40,7 @@ function mapProject(p: Record<string, unknown>, locale: "en" | "bg") {
 }
 
 export const getPublishedProjects = createServerFn({ method: "GET" })
-	.validator(catalogSchema)
+	.inputValidator(catalogSchema)
 	.handler(async ({ data }) => {
 		const supabase = createSupabaseServerClient();
 		let query = supabase
@@ -66,7 +66,7 @@ export const getPublishedProjects = createServerFn({ method: "GET" })
 	});
 
 export const getProjectBySlug = createServerFn({ method: "GET" })
-	.validator(z.object({ slug: z.string(), locale: z.enum(["en", "bg"]) }))
+	.inputValidator(z.object({ slug: z.string(), locale: z.enum(["en", "bg"]) }))
 	.handler(async ({ data }) => {
 		const supabase = createSupabaseServerClient();
 		const { data: project, error } = await supabase
