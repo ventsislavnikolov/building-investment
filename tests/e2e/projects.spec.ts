@@ -24,7 +24,7 @@ test.describe("Projects catalog", () => {
   });
 
   test("shows project count label", async ({ page }) => {
-    await expect(page.getByText(/project/i)).toBeVisible();
+    await expect(page.getByText(/\d+ (?:of \d+ )?project/i)).toBeVisible();
   });
 
   test("no error boundary shown", async ({ page }) => {
@@ -51,7 +51,7 @@ test.describe("Project detail — Lozenets Renovation", () => {
   });
 
   test("shows IRR range", async ({ page }) => {
-    await expect(page.getByText(/14/)).toBeVisible();
+    await expect(page.getByText(/14[–\-]18%/)).toBeVisible();
   });
 
   test("shows Back to projects link", async ({ page }) => {
@@ -64,7 +64,7 @@ test.describe("Project detail — Lozenets Renovation", () => {
 
   test("no error shown", async ({ page }) => {
     await expect(page.getByText(/something went wrong/i)).not.toBeVisible();
-    await expect(page.getByText(/not found/i)).not.toBeVisible();
+    await expect(page.getByText(/project not found/i)).not.toBeVisible();
   });
 });
 
