@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { KeyRound, Menu, X } from "lucide-react";
 import { useState } from "react";
 import type { Locale } from "~/lib/i18n";
 import { localePath } from "~/lib/routing";
@@ -10,9 +10,10 @@ interface MarketingNavProps {
 }
 
 const NAV_LINKS = [
-	{ key: "solutions", label: "Solutions", href: "/solutions" },
+	{ key: "investments", label: "Investments", href: "/projects" },
+	{ key: "pricing", label: "Pricing", href: "#" },
 	{ key: "how-it-works", label: "How it works", href: "/how-it-works" },
-	{ key: "about", label: "About", href: "/about" },
+	{ key: "about", label: "About us", href: "/about" },
 ];
 
 export function MarketingNav({ locale }: MarketingNavProps) {
@@ -29,10 +30,10 @@ export function MarketingNav({ locale }: MarketingNavProps) {
 						className="flex items-center gap-2 shrink-0"
 					>
 						<div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-							<span className="text-white font-bold text-sm">B</span>
+							<KeyRound className="w-4 h-4 text-white" />
 						</div>
 						<span className="font-semibold text-text hidden sm:block">
-							BuildInvest
+							keyturn
 						</span>
 					</Link>
 
@@ -61,7 +62,7 @@ export function MarketingNav({ locale }: MarketingNavProps) {
 							to={localePath(locale, "/register")}
 							className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors"
 						>
-							Get started
+							Register
 						</Link>
 					</div>
 
@@ -111,7 +112,7 @@ export function MarketingNav({ locale }: MarketingNavProps) {
 								className="mx-3 mt-1 flex items-center justify-center py-2 rounded-full bg-primary text-white text-sm font-medium"
 								onClick={() => setMenuOpen(false)}
 							>
-								Get started
+								Register
 							</Link>
 						</div>
 					</div>

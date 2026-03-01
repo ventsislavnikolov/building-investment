@@ -20,13 +20,13 @@ vi.mock("@tanstack/react-router", () => ({
 }));
 
 describe("MarketingNav", () => {
-	it("renders login and get started links", async () => {
+	it("renders login and register links", async () => {
 		const { MarketingNav } = await import("~/components/marketing/nav");
 		const { getAllByRole } = render(<MarketingNav locale="en" />);
 		// Desktop + mobile both render these links
 		expect(getAllByRole("link", { name: /login/i }).length).toBeGreaterThan(0);
 		expect(
-			getAllByRole("link", { name: /get started/i }).length,
+			getAllByRole("link", { name: /register/i }).length,
 		).toBeGreaterThan(0);
 	});
 
