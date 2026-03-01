@@ -1,5 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
-import { getCookie, setCookie } from "@tanstack/react-start/server";
+import { getCookies, setCookie } from "@tanstack/react-start/server";
 import { getRuntimeEnv } from "~/env";
 
 export function createSupabaseServerClient() {
@@ -7,10 +7,11 @@ export function createSupabaseServerClient() {
 	return createServerClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY, {
 		cookies: {
 			getAll() {
-				const all: Array<{ name: string; value: string }> = [];
-				const token = getCookie("sb-auth-token");
-				if (token) all.push({ name: "sb-auth-token", value: token });
-				return all;
+				const cookies = getCookies();
+				return Object.entries(cookies).map(([name, value]) => ({
+					name,
+					value,
+				}));
 			},
 			setAll(cookies) {
 				for (const { name, value, options } of cookies) {

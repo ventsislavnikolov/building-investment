@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { getRuntimeEnv } from "~/env";
@@ -24,7 +25,7 @@ export const createSumsubToken = createServerFn({ method: "POST" }).handler(
 		const {
 			data: { user },
 		} = await supabase.auth.getUser();
-		if (!user) throw new Error("Unauthenticated");
+		if (!user) throw redirect({ to: "/login" });
 
 		const env = getRuntimeEnv();
 		const ts = Math.floor(Date.now() / 1000);
