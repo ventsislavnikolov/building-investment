@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createSupabaseBrowserClient } from "~/lib/supabase/client";
+import { createBrowserClient } from "~/lib/supabase/client";
 
 interface FundingProgress {
 	fundedAmount: number;
@@ -14,7 +14,7 @@ export function useFundingProgress(
 	const [progress, setProgress] = useState<FundingProgress>(initial);
 
 	useEffect(() => {
-		const supabase = createSupabaseBrowserClient();
+		const supabase = createBrowserClient();
 
 		const channel = supabase
 			.channel(`project-${projectId}`)

@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from "~/lib/supabase/server";
+import { sendWelcomeEmail } from "~/server/notifications";
 
 export async function handleLogin(data: { email: string; password: string }) {
 	const supabase = createSupabaseServerClient();
@@ -20,6 +21,9 @@ export async function handleRegister(data: {
 		options: { data: { first_name: data.firstName, last_name: data.lastName } },
 	});
 	if (error) return { error: error.message };
+	// Fire-and-forget welcome email (don't block registration on email)
+	const name = `${data.firstName} ${data.lastName}`.trim();
+	sendWelcomeEmail({ to: data.email, name }).catch(() => null);
 	return { success: true as const };
 }
 

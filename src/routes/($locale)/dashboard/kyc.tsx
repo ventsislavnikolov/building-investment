@@ -1,8 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { CheckCircle, Clock, XCircle } from "lucide-react";
-import { useId } from "react";
+import { lazy, Suspense, useState } from "react";
 import { createSupabaseServerClient } from "~/lib/supabase/server";
+
+const SumsubWidget = lazy(() =>
+	import("~/components/kyc/sumsub-widget").then((m) => ({
+		default: m.SumsubWidget,
+	})),
+);
 
 const getKycStatus = createServerFn({ method: "GET" }).handler(async () => {
 	const supabase = createSupabaseServerClient();
@@ -78,7 +84,7 @@ function KycPage() {
 	const { kycStatus } = Route.useLoaderData();
 	const config = STATUS_CONFIG[kycStatus];
 	const Icon = config.icon;
-	const sumsubContainerId = useId();
+	const [showWidget, setShowWidget] = useState(false);
 
 	return (
 		<div className="p-6 space-y-6">
@@ -126,22 +132,31 @@ function KycPage() {
 				</div>
 			</div>
 
-			{/* CTA */}
+			{/* CTA / Widget */}
 			{config.cta && (
-				<div>
-					{/* Sumsub WebSDK mounts here when user clicks start */}
-					<div id={sumsubContainerId} />
-					<button
-						type="button"
-						className="bg-[#1B59E8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#1B59E8]/90 transition-colors"
-						onClick={() => {
-							/* Sumsub WebSDK init happens client-side */
-							const container = document.getElementById(sumsubContainerId);
-							if (container) container.scrollIntoView({ behavior: "smooth" });
-						}}
-					>
-						{config.cta}
-					</button>
+				<div className="space-y-4">
+					{!showWidget ? (
+						<button
+							type="button"
+							className="bg-[#1B59E8] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#1B59E8]/90 transition-colors"
+							onClick={() => setShowWidget(true)}
+						>
+							{config.cta}
+						</button>
+					) : (
+						<Suspense
+							fallback={
+								<div className="flex items-center justify-center h-32 rounded-xl border border-border bg-[#f8f9fa]">
+									<div className="flex items-center gap-2 text-muted text-sm">
+										<div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+										Loading verification...
+									</div>
+								</div>
+							}
+						>
+							<SumsubWidget />
+						</Suspense>
+					)}
 				</div>
 			)}
 		</div>

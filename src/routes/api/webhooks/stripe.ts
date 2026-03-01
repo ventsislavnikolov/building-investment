@@ -2,6 +2,7 @@ import { createAPIFileRoute } from "@tanstack/react-start/api";
 import Stripe from "stripe";
 import { getRuntimeEnv } from "~/env";
 import { createSupabaseAdminClient } from "~/lib/supabase/admin";
+import { sendInvestmentConfirmedEmail } from "~/server/notifications";
 
 export const APIRoute = createAPIFileRoute("/api/webhooks/stripe")({
 	POST: async ({ request }) => {
@@ -44,6 +45,30 @@ export const APIRoute = createAPIFileRoute("/api/webhooks/stripe")({
 					terms_accepted: true,
 					terms_accepted_at: new Date().toISOString(),
 				});
+
+				// Send confirmation email
+				const [profileRes, projectRes] = await Promise.all([
+					supabase
+						.from("profiles")
+						.select("full_name")
+						.eq("id", userId)
+						.maybeSingle(),
+					supabase
+						.from("projects")
+						.select("title_en, currency")
+						.eq("id", projectId)
+						.maybeSingle(),
+				]);
+				const investorEmail = session.customer_details?.email ?? "";
+				if (investorEmail) {
+					sendInvestmentConfirmedEmail({
+						to: investorEmail,
+						investorName: profileRes.data?.full_name ?? "Investor",
+						projectTitle: projectRes.data?.title_en ?? "the project",
+						amount: Number.parseFloat(amount),
+						currency: projectRes.data?.currency ?? "EUR",
+					}).catch(() => null);
+				}
 			}
 		}
 

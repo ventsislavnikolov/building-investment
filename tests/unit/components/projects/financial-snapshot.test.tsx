@@ -1,6 +1,16 @@
 // @vitest-environment jsdom
 import { render } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("~/lib/supabase/client", () => ({
+	createBrowserClient: () => ({
+		channel: () => ({
+			on: function () { return this; },
+			subscribe: function () { return this; },
+		}),
+		removeChannel: vi.fn(),
+	}),
+}));
 
 const mockProject = {
 	id: "1",

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { getRuntimeEnv } from "~/env";
 import { createSupabaseAdminClient } from "~/lib/supabase/admin";
 import { createSupabaseServerClient } from "~/lib/supabase/server";
+import { sendKycApprovedEmail } from "~/server/notifications";
 
 export function verifySumsubSignature(
 	payload: string,
@@ -79,6 +80,19 @@ export async function handleSumsubWebhook(
 			.from("profiles")
 			.update({ kyc_status: "approved" })
 			.eq("sumsub_applicant_id", event.data.applicantId);
+
+		// Send KYC approved email
+		const { data: profile } = await supabase
+			.from("profiles")
+			.select("full_name, email")
+			.eq("sumsub_applicant_id", event.data.applicantId)
+			.maybeSingle();
+		if (profile?.email) {
+			sendKycApprovedEmail({
+				to: profile.email,
+				name: profile.full_name ?? "Investor",
+			}).catch(() => null);
+		}
 	}
 
 	if (event.data.type === "applicantPending") {

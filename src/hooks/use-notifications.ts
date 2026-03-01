@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { createSupabaseBrowserClient } from "~/lib/supabase/client";
+import { createBrowserClient } from "~/lib/supabase/client";
 
 export function useNotifications(userId: string | null) {
 	const [unreadCount, setUnreadCount] = useState(0);
 
 	useEffect(() => {
 		if (!userId) return;
-		const supabase = createSupabaseBrowserClient();
+		const supabase = createBrowserClient();
 
 		// Load initial unread count
 		supabase
