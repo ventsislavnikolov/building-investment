@@ -7,7 +7,12 @@ import { sendInvestmentConfirmedEmail } from "~/server/notifications";
 export const APIRoute = createAPIFileRoute("/api/webhooks/stripe")({
 	POST: async ({ request }) => {
 		const env = getRuntimeEnv();
-		const stripe = new Stripe(env.STRIPE_SECRET_KEY);
+		const stripeKey = env.STRIPE_SECRET_KEY;
+		const webhookSecret = env.STRIPE_WEBHOOK_SECRET;
+		if (!stripeKey || !webhookSecret) {
+			return new Response("Stripe not configured", { status: 503 });
+		}
+		const stripe = new Stripe(stripeKey);
 		const sig = request.headers.get("stripe-signature");
 
 		if (!sig) {
@@ -18,11 +23,7 @@ export const APIRoute = createAPIFileRoute("/api/webhooks/stripe")({
 
 		let event: Stripe.Event;
 		try {
-			event = stripe.webhooks.constructEvent(
-				body,
-				sig,
-				env.STRIPE_WEBHOOK_SECRET,
-			);
+			event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
 		} catch {
 			return new Response("Webhook signature verification failed", {
 				status: 400,

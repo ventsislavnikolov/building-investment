@@ -41,6 +41,8 @@ export const createInvestmentCheckout = createServerFn({ method: "POST" })
 		}
 
 		const env = getRuntimeEnv();
+		if (!env.STRIPE_SECRET_KEY)
+			throw new Error("STRIPE_SECRET_KEY is not configured");
 		const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
 		const session = await stripe.checkout.sessions.create({
@@ -77,14 +79,18 @@ export const handleStripeWebhook = createServerFn({ method: "POST" })
 	.inputValidator(webhookSchema)
 	.handler(async ({ data }) => {
 		const env = getRuntimeEnv();
-		const stripe = new Stripe(env.STRIPE_SECRET_KEY);
+		const stripeKey = env.STRIPE_SECRET_KEY;
+		const webhookSecret = env.STRIPE_WEBHOOK_SECRET;
+		if (!stripeKey || !webhookSecret)
+			throw new Error("Stripe is not configured");
+		const stripe = new Stripe(stripeKey);
 
 		let event: Stripe.Event;
 		try {
 			event = stripe.webhooks.constructEvent(
 				data.body,
 				data.signature,
-				env.STRIPE_WEBHOOK_SECRET,
+				webhookSecret,
 			);
 		} catch {
 			throw new Error("Webhook signature verification failed");
