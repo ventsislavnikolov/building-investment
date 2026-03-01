@@ -50,7 +50,7 @@ export const APIRoute = createAPIFileRoute("/api/webhooks/stripe")({
 				const [profileRes, projectRes] = await Promise.all([
 					supabase
 						.from("profiles")
-						.select("full_name")
+						.select("first_name, last_name")
 						.eq("id", userId)
 						.maybeSingle(),
 					supabase
@@ -63,7 +63,10 @@ export const APIRoute = createAPIFileRoute("/api/webhooks/stripe")({
 				if (investorEmail) {
 					sendInvestmentConfirmedEmail({
 						to: investorEmail,
-						investorName: profileRes.data?.full_name ?? "Investor",
+						investorName: profileRes.data
+							? `${profileRes.data.first_name ?? ""} ${profileRes.data.last_name ?? ""}`.trim() ||
+								"Investor"
+							: "Investor",
 						projectTitle: projectRes.data?.title_en ?? "the project",
 						amount: Number.parseFloat(amount),
 						currency: projectRes.data?.currency ?? "EUR",
