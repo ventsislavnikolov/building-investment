@@ -30,7 +30,7 @@ export const APIRoute = createAPIFileRoute("/api/webhooks/stripe")({
 		}
 
 		if (event.type === "checkout.session.completed") {
-			const session = event.data.object as Stripe.CheckoutSession;
+			const session = event.data.object as Stripe.Checkout.Session;
 			const { projectId, userId, amount } = session.metadata ?? {};
 
 			if (projectId && userId && amount) {
