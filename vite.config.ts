@@ -9,7 +9,11 @@ const config = defineConfig({
 	plugins: [
 		tsconfigPaths({ projects: ["./tsconfig.json"] }),
 		tailwindcss(),
-		tanstackStart(),
+		tanstackStart({
+			routerOptions: {
+				routeFileIgnorePattern: "api/",
+			},
+		}),
 		viteReact(),
 	],
 	resolve: {

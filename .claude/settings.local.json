@@ -3,7 +3,10 @@
     "allow": [
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "mcp__plugin_linear_linear__list_teams",
+      "mcp__plugin_linear_linear__list_issues",
+      "mcp__plugin_linear_linear__list_projects"
     ]
   }
 }
